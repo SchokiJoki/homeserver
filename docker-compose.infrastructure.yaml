@@ -1,0 +1,105 @@
+version: "3.9"
+
+services:
+  # 🧿 Pi-hole (läuft im Hostnetz, DNS)
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      TZ: "Europe/Berlin"
+      FTLCONF_webserver_api_password: "${PIHOLE_PASSWORD}"
+      FTLCONF_webserver_port: "8088"
+      FTLCONF_LOCAL_IPV4: "192.168.178.69"
+      REV_SERVER: "true"
+      REV_SERVER_TARGET: "192.168.178.1"
+      REV_SERVER_DOMAIN: "fritz.box"
+      REV_SERVER_CIDR: "192.168.178.0/24"
+    volumes:
+      - ${PIHOLE_BASE:-/srv/backup/A/rpi-internals/pihole}/config:/etc/pihole
+    cap_add:
+      - NET_ADMIN
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.home`)"
+      - "traefik.http.routers.pihole.entrypoints=websecure"
+      - "traefik.http.routers.pihole.tls=true"
+      - "traefik.http.services.pihole.loadbalancer.server.url=http://192.168.178.69:8088"
+
+  # 🌍 Traefik (Reverse Proxy, SSL, Dashboard)
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: unless-stopped
+    depends_on:
+      pihole:
+        condition: service_started
+    ports:
+      - "80:80"
+      - "443:443"
+      - "7000:8080" # Dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./conf/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./conf/dynamic.yml:/etc/traefik/dynamic.yml:ro
+      - ./certs:/certs:ro
+    networks:
+      - proxy
+      - nextcloud-aio
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.home`)"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.tls=true"
+      - "traefik.http.routers.traefik.service=api@internal"
+
+  # 🧩 Heimdall (Dashboard)
+  heimdall:
+    image: lscr.io/linuxserver/heimdall:latest
+    container_name: heimdall
+    restart: unless-stopped
+    depends_on:
+      pihole:
+        condition: service_started
+    environment:
+      PUID: "${PUID}"
+      PGID: "${PGID}"
+      TZ: "${TZ}"
+    volumes:
+      - ${HEIMDALL_BASE:-/srv/backup/A/rpi-internals/heimdall}/config:/config
+    networks:
+      - proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "traefik.enable=true"
+      - "traefik.http.routers.heimdall.rule=Host(`heimdall.home`)"
+      - "traefik.http.routers.heimdall.entrypoints=websecure"
+      - "traefik.http.routers.heimdall.tls=true"
+      - "traefik.http.services.heimdall.loadbalancer.server.scheme=https"
+      - "traefik.http.services.heimdall.loadbalancer.server.port=443"
+      - "traefik.docker.network=proxy"
+
+
+  # 🔄 Watchtower (automatische Updates)
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    command: --cleanup --label-enable --interval ${WATCHTOWER_INTERVAL:-86400}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+networks:
+  proxy:
+    name: proxy
+    driver: bridge
+  nextcloud-aio:
+    external: true

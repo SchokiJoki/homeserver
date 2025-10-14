@@ -1,0 +1,27 @@
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+
+  websecure:
+    address: ":443"
+
+api:
+  dashboard: true
+  insecure: true  # erlaubt Dashboard-Aufruf über https://traefik.home:7000
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: proxy
+  file:
+    filename: /etc/traefik/dynamic.yml
+    watch: true
+
+log:
+  level: INFO
+accessLog: {}

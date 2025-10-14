@@ -1,0 +1,30 @@
+http:
+  routers:
+    nextcloud:
+      rule: "Host(`nextcloud.home`)"
+      entryPoints:
+        - websecure
+      tls: true
+      service: nextcloud-svc
+
+  services:
+    nextcloud-svc:
+      loadBalancer:
+        passHostHeader: false
+        servers:
+          - url: "http://nextcloud-aio-apache:11000"
+
+tls:
+  certificates:
+    - certFile: /certs/nextcloud.home.pem
+      keyFile: /certs/nextcloud.home-key.pem
+    - certFile: /certs/pihole.home.pem
+      keyFile: /certs/pihole.home-key.pem
+    - certFile: /certs/portainer.home.pem
+      keyFile: /certs/portainer.home-key.pem
+    - certFile: /certs/pdf.home.pem
+      keyFile: /certs/pdf.home-key.pem
+    - certFile: /certs/traefik.home.pem
+      keyFile: /certs/traefik.home-key.pem
+    - certFile: /certs/heimdall.home.pem
+      keyfile:  /certs/heimdall.home-key.pem

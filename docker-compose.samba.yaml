@@ -1,0 +1,18 @@
+services:
+  samba:
+    image: dockurr/samba
+    container_name: samba
+    environment:
+      NAME: "${SAMBA_SHARE_NAME}"
+      USER: "${SAMBA_USER}"
+      PASS: "${SAMBA_PASSWORD}"
+      UID: "1000"
+      GID: "1000"
+      RW: "true"
+    ports:
+      - "445:445"
+    volumes:
+      - /srv/backup/A/:/storage
+    restart: always
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
