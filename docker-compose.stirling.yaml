@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  stirling-pdf:
+    # Für Pi 4/5 mit 64-bit OS (empfohlen):
+    image: stirlingtools/stirling-pdf:latest
+    # Alternativ mehr Features (größer): stirlingtools/stirling-pdf:latest
+    # Falls du ARM64 *erzwingen* willst (nur wenn Host ARM64 kann):
+    # platform: linux/arm64
+
+    container_name: stirling-pdf
+    restart: unless-stopped
+    environment:
+      TZ: Europe/Berlin
+      # Zusätzliche Features (OCR usw.) bei Ultra-Lite evtl. limitiert:
+      DISABLE_ADDITIONAL_FEATURES: "true"
+      LANGS: de_DE
+    volumes:
+      # Persistenz (optional, aber sinnvoll)
+      - /srv/backup/A/rpi-internals/stirlingpdf/logs:/logs
+      - /srv/backup/A/rpi-internals/stirlingpdf/config:/configs
+      - /srv/backup/A/rpi-internals/stirlingpdf/custom:/customFiles
+      - /srv/backup/A/rpi-internals/stirlingpdf/pipeline:/pipeline
+      # OCR-Sprachen (wenn du zusätzliche Tesseract-Sprachen nutzt)
+      - /srv/backup/A/rpi-internals/stirlingpdf/tessdata:/usr/share/tessdata:ro
+    labels:
+      - "traefik.enable=true"
+
+      # --- HTTP (Port 80) ---
+      - "traefik.http.routers.stirlingpdf.rule=Host(`pdf.home`)"
+      - "traefik.http.routers.stirlingpdf.entrypoints=web"
+      - "traefik.http.services.stirlingpdf.loadbalancer.server.port=8080"
+
+     # --- Optional: HTTPS (wenn dein Traefik websecure & Zertifikate hat) ---
+      - "traefik.http.routers.stirlingpdf-secure.rule=Host(`pdf.home`)"
+      - "traefik.http.routers.stirlingpdf-secure.entrypoints=websecure"
+      - "traefik.http.routers.stirlingpdf-secure.tls=true"
+     # - "traefik.http.routers.stirlingpdf-secure.tls.certresolver=lets"   # falls konfiguriert
+#      - "traefik.http.middlewares.secure-headers.headers.stsSeconds=31536000"
+ #     - "traefik.http.routers.stirlingpdf-secure.middlewares=secure-headers@docker"
+
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+    # Passe ggf. an dein bestehendes Traefik-Netz an (z. B. "proxy")
+    name: proxy

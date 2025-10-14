@@ -1,0 +1,27 @@
+# ---- System / Pfade ----
+NC_BASE=/srv/backup/A/nextcloud
+TZ=Europe/Berlin
+PUID=1000
+PGID=1000
+
+# ---- Nextcloud Hostname (für Caddy & Browser) ----
+NEXTCLOUD_HOST=nextcloud.lan
+
+# ---- MariaDB ----
+DB_NAME=nextcloud
+DB_USER=ncuser
+DB_PASSWORD=16NbD+X2tny/kGa0HYn6hNqzbnDGPuI8DDNNblHi40Y=
+DB_ROOT_PASSWORD=iCZGkQGTob4lwt1FhdScaeD7QpvwhxLMtlsX9mJArT8vkWXQ2wI1PGb/KA1i7XPP
+
+# ---- Nextcloud PHP Limits ----
+PHP_MEMORY_LIMIT=1024M
+PHP_UPLOAD_LIMIT=4G
+
+# ---- Watchtower ----
+WATCHTOWER_INTERVAL=86400
+
+# ---- Portainer ----
+PORTAINER_PORT=9000
+
+# ---- Backup ----
+BACKUP_RETENTION_DAYS=30
