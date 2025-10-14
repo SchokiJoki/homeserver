@@ -71,6 +71,7 @@ services:
       PUID: "${PUID}"
       PGID: "${PGID}"
       TZ: "${TZ}"
+      DISABLE_HTTPS: true
     volumes:
       - ${HEIMDALL_BASE:-/srv/backup/A/rpi-internals/heimdall}/config:/config
     networks:
@@ -81,8 +82,8 @@ services:
       - "traefik.http.routers.heimdall.rule=Host(`heimdall.home`)"
       - "traefik.http.routers.heimdall.entrypoints=websecure"
       - "traefik.http.routers.heimdall.tls=true"
-      - "traefik.http.services.heimdall.loadbalancer.server.scheme=https"
-      - "traefik.http.services.heimdall.loadbalancer.server.port=443"
+      - "traefik.http.services.heimdall.loadbalancer.server.scheme=http"
+      - "traefik.http.services.heimdall.loadbalancer.server.port=80"
       - "traefik.docker.network=proxy"
 
 
