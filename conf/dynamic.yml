@@ -28,3 +28,5 @@ tls:
       keyFile: /certs/traefik.home-key.pem
     - certFile: /certs/heimdall.home.pem
       keyfile:  /certs/heimdall.home-key.pem
+    - certFile: /certs/wg.home.pem
+      keyfile:  /certs/wg.home-key.pem
