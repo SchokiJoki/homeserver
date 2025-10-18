@@ -7,12 +7,14 @@ http:
       tls: true
       service: nextcloud-svc
 
+
   services:
     nextcloud-svc:
       loadBalancer:
         passHostHeader: false
         servers:
           - url: "http://nextcloud-aio-apache:11000"
+
 
 tls:
   certificates:

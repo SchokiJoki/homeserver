@@ -4,7 +4,8 @@ volumes:
 services:
   wg-easy:
     environment:
-      WG_DEFAULT_DNS: 172.17.0.1
+      WG_DEFAULT_DNS: host.docker.internal
+      DISABLE_IPV6: true
     #  Optional:
   #    - PORT=51821
  #     - HOST=0.0.0.0
@@ -44,7 +45,7 @@ services:
 networks:
   wg:
     driver: bridge
-    enable_ipv6: true
+    enable_ipv6: false
     ipam:
       driver: default
       config:
