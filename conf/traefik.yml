@@ -12,7 +12,8 @@ entryPoints:
 
 api:
   dashboard: true
-  insecure: true  # erlaubt Dashboard-Aufruf über https://traefik.home:7000
+  insecure: false
+  # erlaubt Dashboard-Aufruf über https://traefik.home:7000
 
 providers:
   docker:

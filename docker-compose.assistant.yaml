@@ -10,10 +10,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /run/dbus:/run/dbus:ro
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.homeassistant.rule=Host(`assistant.home`)"
-      - "traefik.http.routers.homeassistant.entrypoints=websecure"
-      - "traefik.http.routers.homeassistant.tls=true"
-      - "traefik.http.routers.homeassistant.service=homeassistant-svc"
-      - "traefik.http.services.homeassistant-svc.loadbalancer.server.port=192.168.178.69:8123"
-      - "traefik.http.services.homeassistant-svc.loadbalancer.server.scheme=https"
+      - traefik.enable=true
+      - traefik.http.routers.homeassistant.rule=Host(`assistant.home`)
+      - traefik.http.routers.homeassistant.entrypoints=websecure
+      - traefik.http.routers.homeassistant.tls=true
+      - traefik.http.services.homeassistant.loadbalancer.server.port=8123
