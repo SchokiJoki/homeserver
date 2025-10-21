@@ -34,9 +34,6 @@ services:
       DATASOURCES_DEFAULT_PASSWORD: "${MYSQL_PASSWORD}"
       DATASOURCES_DEFAULT_DATABASE: "${MYSQL_DATABASE}"
 
-    expose:
-      - "443"
-
     volumes:
       - ./internals/passbolt/gpg:/etc/passbolt/gpg
       - ./internals/passbolt/jwt:/etc/passbolt/jwt
@@ -56,5 +53,6 @@ services:
       - "traefik.http.routers.passbolt.entrypoints=websecure"
       - "traefik.http.routers.passbolt.tls=true"
       - "traefik.http.routers.passbolt.service=passbolt-svc"
-      - "traefik.http.services.passbolt-svc.loadbalancer.server.port=443"
+      - "traefik.http.services.passbolt-svc.loadbalancer.server.port=8443"
+      - "traefik.http.routers.passbolt-https.middlewares: 'SslHeader@file'"
       - "traefik.http.services.passbolt-svc.loadbalancer.server.scheme=https"
