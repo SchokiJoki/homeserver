@@ -4,7 +4,10 @@ volumes:
 services:
   wg-easy:
     environment:
-      WG_DEFAULT_DNS: host.docker.internal
+      WG_HOST: ${WG_HOST:-192.168.178.69}
+      WG_PORT: ${WG_PORT:-51820}
+      WG_DEFAULT_DNS: ${WG_DEFAULT_DNS:-192.168.178.69}
+      WG_ALLOWED_IPS: ${WG_ALLOWED_IPS:-0.0.0.0/0}
       DISABLE_IPV6: true
     #  Optional:
   #    - PORT=51821
@@ -42,6 +45,12 @@ services:
       - "traefik.http.routers.wg-easy.entrypoints=websecure"
       - "traefik.http.routers.wg-easy.service=wg-easy"
       - "traefik.http.services.wg-easy.loadbalancer.server.port=51821"
+      - "traefik.http.routers.wg-easy-http.rule=Host(`wg.home`)"
+      - "traefik.http.routers.wg-easy-http.entrypoints=web"
+      - "traefik.http.routers.wg-easy-http.middlewares=wg-easy-redirect"
+      - "traefik.http.routers.wg-easy-http.service=wg-easy"
+      - "traefik.http.middlewares.wg-easy-redirect.redirectscheme.scheme=https"
+      - "traefik.docker.network=proxy"
 networks:
   wg:
     driver: bridge

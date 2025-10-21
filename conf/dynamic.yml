@@ -7,6 +7,12 @@ http:
       tls: true
       service: nextcloud-svc
 
+  middlewares:
+    SslHeader:
+      headers:
+        customRequestHeaders:
+          X-Forwarded-Proto: "https"
+
 
   services:
     nextcloud-svc:
