@@ -44,3 +44,5 @@ tls:
       keyfile:  /certs/passbolt.home-key.pem
     - certFile: /certs/assistant.home.pem
       keyfile:  /certs/assistant.home-key.pem
+    - certFile: /certs/jellyfin.home.pem
+      keyfile:  /certs/jellyfin.home-key.pem

@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   smtp-relay:
-    image: instantlinux/postfix:3.7
+    image: instantlinux/postfix:latest
     container_name: smtp-relay
     restart: unless-stopped
     environment:
@@ -18,7 +18,8 @@ services:
       - /etc/ssl/certs:/etc/ssl/certs:ro
     networks:
       - proxy
-
+    ports:
+      - "25:25"
 networks:
   proxy:
     external: true
