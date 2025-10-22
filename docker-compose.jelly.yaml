@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    hostname: jellyfin
+    networks:
+      - proxy
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Berlin
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      # Konfiguration & Cache
+      - /srv/backup/A/media/jellyfin/config:/config
+      - /srv/backup/A/media/jellyfin/cache:/cache
+
+      # Medienbibliotheken
+      - /srv/backup/A/media/videos:/media/videos
+      - /srv/backup/A/media/music:/media/music
+      - /srv/backup/A/media/itunes:/media/itunes
+
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+      # 🔹 Traefik Integration
+      - "traefik.enable=true"
+      - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.home`)"
+      - "traefik.http.routers.jellyfin.entrypoints=websecure"
+      - "traefik.http.routers.jellyfin.tls=true"
+      - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+
+networks:
+  proxy:
+    external: true
