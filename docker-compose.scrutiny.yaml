@@ -1,0 +1,38 @@
+version: "3.9"
+
+networks:
+  proxy:
+    external: true
+
+services:
+  scrutiny:
+    image: ghcr.io/analogj/scrutiny:master-omnibus
+    container_name: scrutiny
+    restart: unless-stopped
+    cap_add:
+      - SYS_RAWIO
+    environment:
+      - TZ=Europe/Berlin
+      - SCRUTINY_COLLECTOR=true
+      - SCRUTINY_LOG_LEVEL=info
+    volumes:
+      - /run/udev:/run/udev:ro
+      - ./internals/scrutiny/config:/opt/scrutiny/config
+      - ./internals/scrutiny/influxdb:/opt/scrutiny/influxdb
+    devices:
+      - "/dev/sda"
+      - "/dev/sdb"
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+
+      # Router
+      - "traefik.http.routers.scrutiny.rule=Host(`scrutiny.home`)"
+      - "traefik.http.routers.scrutiny.entrypoints=websecure"
+      - "traefik.http.routers.scrutiny.tls=true"
+      - "traefik.http.routers.scrutiny.service=scrutiny-svc"
+
+      # Service
+      - "traefik.http.services.scrutiny-svc.loadbalancer.server.port=8080"
+      - "traefik.http.services.scrutiny-svc.loadbalancer.server.scheme=http"
