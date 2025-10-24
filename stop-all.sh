@@ -7,6 +7,13 @@ COMPOSE_FILES=(
   "docker-compose.samba.yaml"
   "docker-compose.ncaio.yaml"
   "docker-compose.stirling.yaml"
+  "docker-compose.assistant.yaml"
+  "docker-compose.passbolt.yaml"
+  "docker-compose.scrutiny.yaml"
+  "docker-compose.jelly.yaml"
+  "docker-compose.paperless.yaml"
+  "docker-compose.smtp.yaml"
+  "docker-compose.wg.yaml"
 )
 
 if docker compose version >/dev/null 2>&1; then
