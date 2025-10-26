@@ -20,8 +20,8 @@ services:
       wg:
         ipv4_address: 10.42.42.42
         ipv6_address: fdcc:ad94:bacf:61a3::2a
-      proxy: 
-        ipv4_address: 172.19.0.4
+      proxy: {}
+#        ipv4_address: 172.19.0.3
     volumes:
       - etc_wireguard:/etc/wireguard
       - /lib/modules:/lib/modules:ro

@@ -2,11 +2,18 @@
 set -euo pipefail
 
 COMPOSE_FILES=(
+
   "docker-compose.infrastructure.yaml"
+  "docker-compose.wg.yaml"
   "docker-compose.portainer.yaml"
   "docker-compose.samba.yaml"
   "docker-compose.ncaio.yaml"
   "docker-compose.stirling.yaml"
+  "docker-compose.assistant.yaml"
+  "docker-compose.passbolt.yaml"
+  "docker-compose.scrutiny.yaml"
+  "docker-compose.jelly.yaml"
+  "docker-compose.paperless.yaml"
 )
 
 if docker compose version >/dev/null 2>&1; then

@@ -34,6 +34,18 @@ services:
       DATASOURCES_DEFAULT_PASSWORD: "${MYSQL_PASSWORD}"
       DATASOURCES_DEFAULT_DATABASE: "${MYSQL_DATABASE}"
 
+      # E-Mail Einstellungen
+      EMAIL_DEFAULT_FROM_NAME: "Passbolt"
+      EMAIL_DEFAULT_FROM: "johannes.kigele@mailbox.org"
+
+      EMAIL_TRANSPORT_DEFAULT_HOST: "smtp.mailbox.org"
+      EMAIL_TRANSPORT_DEFAULT_PORT: "587"
+      EMAIL_TRANSPORT_DEFAULT_USERNAME: "${MAIL_USER}"
+      EMAIL_TRANSPORT_DEFAULT_PASSWORD: "${MAIL_PW}"
+      EMAIL_TRANSPORT_DEFAULT_TLS: "true"
+
+  # Weitere Passbolt typische Variablen (falls benötigt)
+  # (z. B. Datenbank, Zertifikate, etc.)
     volumes:
       - ./internals/passbolt/gpg:/etc/passbolt/gpg
       - ./internals/passbolt/jwt:/etc/passbolt/jwt

@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+  # 📮 Lokaler Postfix-Relay (System-SMTP)
+  smtp-local:
+    image: mwader/postfix-relay:latest
+    container_name: smtp-local
+    restart: unless-stopped
+    environment:
+      - POSTFIX_relayhost=mailpit:1025
+      - MYNETWORKS=127.0.0.0/8 172.17.0.0/16 172.18.0.0/16 192.168.178.0/24
+      - MYHOSTNAME=relay.homeserver.home
+      - SMTP_USE_TLS=no
+      - SMTP_TLS_SECURITY_LEVEL=none
+      - TZ=Europe/Berlin
+      # Wenn du später ein externes Relay willst (Mailbox.org, Mailjet etc.)
+      # kannst du hier RELAYHOST, RELAY_USER, RELAY_PASSWORD ergänzen
+    volumes:
+      - ./maildata:/var/mail
+    networks:
+      - proxy
+    ports:
+      - "25:25"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.smtp-local.rule=Host(`smtp.home`)"
+      - "traefik.http.routers.smtp-local.entrypoints=websecure"
+      - "traefik.http.routers.smtp-local.tls=true"
+      - "traefik.http.services.smtp-local.loadbalancer.server.port=25"
+
+  # 📬 Mailpit (zeigt alle eingehenden Mails im Browser)
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    restart: unless-stopped
+    environment:
+      - MP_UI_BIND_ADDR=0.0.0.0:8025
+      - MP_SMTP_BIND_ADDR=0.0.0.0:1025
+      - TZ=Europe/Berlin
+    networks:
+      - proxy
+    depends_on:
+      - smtp-local
+    ports:
+      - "1025:1025"  # SMTP-Eingang (von Postfix)
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mailpit.rule=Host(`mail.home`)"
+      - "traefik.http.routers.mailpit.entrypoints=websecure"
+      - "traefik.http.routers.mailpit.tls=true"
+      - "traefik.http.services.mailpit.loadbalancer.server.port=8025"
+
+networks:
+  proxy:
+    external: true
+    name: proxy

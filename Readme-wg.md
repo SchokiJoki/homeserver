@@ -24,3 +24,6 @@ Zusätzlich muss die Rückroute/NAT-Freigabe per `iptables` gesetzt werden, dami
 
 ```bash
 sudo ip route add 10.8.0.0/24 via 172.19.0.3
+
+
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' wg-easy                        10.42.42.42172.18.0.4                           johannes@debian:~/docker/homeserver$ sudo ip route add 10.8.0.0/24 via 172.18.0.4               [sudo] Passwort für johannes:                   johannes@debian:~/docker/homeserver$ sudo apt install iptables-persistent                       sudo netfilter-persistent save                  iptables-persistent ist schon die neueste Version (1.0.23).                                     Zusammenfassung:                                  Aktualisiere: 0, Installiere: 0, Entferne: 0, Aktualisiere nicht: 12                          run-parts: executing /usr/share/netfilter-persistent/plugins.d/15-ip4tables save                run-parts: executing /usr/share/netfilter-persistent/plugins.d/25-ip6tables save
