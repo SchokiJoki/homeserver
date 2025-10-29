@@ -9,6 +9,9 @@ COMPOSE_FILES=(
   "docker-compose.stirling.yaml"
 )
 
+STATIC_IPV4_FILES=()
+OTHER_FILES=()
+
 NON_INFRA_SERVICES=(
   portainer
   db
@@ -34,7 +37,14 @@ for file in "${COMPOSE_FILES[@]}"; do
     echo "Fehlende Compose-Datei: $file" >&2
     exit 1
   fi
+  if grep -Eq 'ipv4_address|subnet' "$file"; then
+    STATIC_IPV4_FILES+=("$file")
+  else
+    OTHER_FILES+=("$file")
+  fi
 done
+
+COMPOSE_FILES=("${STATIC_IPV4_FILES[@]}" "${OTHER_FILES[@]}")
 
 if [[ ${#NON_INFRA_SERVICES[@]} -eq 0 ]]; then
   echo "Keine Dienste außerhalb der Infrastruktur definiert." >&2

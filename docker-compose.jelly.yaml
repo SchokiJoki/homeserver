@@ -23,8 +23,6 @@ services:
       - /srv/backup/A/media/itunes:/media/itunes
 
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-
       # 🔹 Traefik Integration
       - "traefik.enable=true"
       - "traefik.http.routers.jellyfin.rule=Host(`jellyfin.home`)"

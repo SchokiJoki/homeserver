@@ -3,6 +3,7 @@ set -euo pipefail
 
 COMPOSE_FILES=(
   "docker-compose.infrastructure.yaml"
+  "docker-compose.wg.yaml"
   "docker-compose.portainer.yaml"
   "docker-compose.samba.yaml"
   "docker-compose.ncaio.yaml"
@@ -12,9 +13,11 @@ COMPOSE_FILES=(
   "docker-compose.scrutiny.yaml"
   "docker-compose.jelly.yaml"
   "docker-compose.paperless.yaml"
-  "docker-compose.smtp.yaml"
-  "docker-compose.wg.yaml"
+  "docker-compose.mail.yaml"
 )
+
+STATIC_IPV4_FILES=()
+OTHER_FILES=()
 
 if docker compose version >/dev/null 2>&1; then
   COMPOSE_COMMAND=(docker compose)
@@ -30,7 +33,14 @@ for file in "${COMPOSE_FILES[@]}"; do
     echo "Fehlende Compose-Datei: $file" >&2
     exit 1
   fi
+  if grep -Eq 'ipv4_address|subnet' "$file"; then
+    STATIC_IPV4_FILES+=("$file")
+  else
+    OTHER_FILES+=("$file")
+  fi
 done
+
+COMPOSE_FILES=("${STATIC_IPV4_FILES[@]}" "${OTHER_FILES[@]}")
 
 echo "Stoppe und entferne alle Dienste aus: ${COMPOSE_FILES[*]}"
 "${COMPOSE_COMMAND[@]}" \

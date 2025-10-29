@@ -26,9 +26,6 @@ services:
       NEXTCLOUD_MAX_TIME: 600
       NEXTCLOUD_MEMORY_LIMIT: 512M
       NEXTCLOUD_TRUSTED_CACERTS_DIR: /home/johannes/.local/share/mkcert
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-
 volumes:
   nextcloud_aio_mastercontainer:
     name: nextcloud_aio_mastercontainer

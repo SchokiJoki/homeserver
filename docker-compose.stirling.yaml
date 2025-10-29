@@ -17,12 +17,12 @@ services:
       LANGS: de_DE
     volumes:
       # Persistenz (optional, aber sinnvoll)
-      - /srv/backup/A/rpi-internals/stirlingpdf/logs:/logs
-      - /srv/backup/A/rpi-internals/stirlingpdf/config:/configs
-      - /srv/backup/A/rpi-internals/stirlingpdf/custom:/customFiles
-      - /srv/backup/A/rpi-internals/stirlingpdf/pipeline:/pipeline
+      - ${STIRLING_BASE:-./internals/stirlingpdf}/logs:/logs
+      - ${STIRLING_BASE:-./internals/stirlingpdf}/config:/configs
+      - ${STIRLING_BASE:-./internals/stirlingpdf}/custom:/customFiles
+      - ${STIRLING_BASE:-./internals/stirlingpdf}/pipeline:/pipeline
       # OCR-Sprachen (wenn du zusätzliche Tesseract-Sprachen nutzt)
-      - /srv/backup/A/rpi-internals/stirlingpdf/tessdata:/usr/share/tessdata:ro
+      - ${STIRLING_BASE:-./internals/stirlingpdf}/tessdata:/usr/share/tessdata:ro
     labels:
       - "traefik.enable=true"
 

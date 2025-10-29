@@ -17,12 +17,10 @@ services:
       REV_SERVER_DOMAIN: "fritz.box"
       REV_SERVER_CIDR: "192.168.178.0/24"
     volumes:
-      - ${PIHOLE_BASE:-/srv/backup/A/rpi-internals/pihole}/config:/etc/pihole
+      - ${PIHOLE_BASE:-./internals/pihole}/config:/etc/pihole
     cap_add:
       - NET_ADMIN
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
-
       - "traefik.enable=true"
       - "traefik.http.routers.pihole.rule=Host(`pihole.home`)"
       - "traefik.http.routers.pihole.entrypoints=websecure"
@@ -52,7 +50,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.rule=Host(`traefik.home`)"
       - "traefik.http.routers.traefik.entrypoints=websecure"
@@ -73,11 +70,10 @@ services:
       TZ: "${TZ}"
       DISABLE_HTTPS: true
     volumes:
-      - ${HEIMDALL_BASE:-/srv/backup/A/rpi-internals/heimdall}/config:/config
+      - ${HEIMDALL_BASE:-./internals/heimdall}/config:/config
     networks:
       - proxy
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
       - "traefik.http.routers.heimdall.rule=Host(`heimdall.home`)"
       - "traefik.http.routers.heimdall.entrypoints=websecure"
@@ -85,18 +81,6 @@ services:
       - "traefik.http.services.heimdall.loadbalancer.server.scheme=http"
       - "traefik.http.services.heimdall.loadbalancer.server.port=80"
       - "traefik.docker.network=proxy"
-
-
-  # 🔄 Watchtower (automatische Updates)
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    restart: unless-stopped
-    command: --cleanup --label-enable --interval ${WATCHTOWER_INTERVAL:-86400}
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    labels:
-      - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
   proxy:

@@ -14,7 +14,6 @@ services:
       - proxy
 
     labels:
-      - "com.centurylinklabs.watchtower.enable=true"
       - "traefik.enable=true"
 
       # --- HTTPS-Router ---
