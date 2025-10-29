@@ -5,7 +5,7 @@ networks:
     external: true
 
 services:
-  db:
+  passbolt-db:
     image: mariadb:10.11
     container_name: passbolt-db
     restart: unless-stopped
@@ -24,12 +24,12 @@ services:
     container_name: passbolt
     restart: unless-stopped
     depends_on:
-      - db
+      - passbolt-db
     networks:
       - proxy
     environment:
       APP_FULL_BASE_URL: "${APP_FULL_BASE_URL}"
-      DATASOURCES_DEFAULT_HOST: "db"
+      DATASOURCES_DEFAULT_HOST: "passbolt-db"
       DATASOURCES_DEFAULT_USERNAME: "${MYSQL_USER}"
       DATASOURCES_DEFAULT_PASSWORD: "${MYSQL_PASSWORD}"
       DATASOURCES_DEFAULT_DATABASE: "${MYSQL_DATABASE}"
@@ -54,7 +54,7 @@ services:
       [
         "/usr/bin/wait-for.sh",
         "-t", "0",
-        "db:3306",
+        "passbolt-db:3306",
         "--",
         "/docker-entrypoint.sh"
       ]
