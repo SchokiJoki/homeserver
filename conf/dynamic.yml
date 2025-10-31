@@ -6,13 +6,20 @@ http:
         - websecure
       tls: true
       service: nextcloud-svc
+      middlewares:
+        - nextcloud-timeout
 
   middlewares:
     SslHeader:
       headers:
         customRequestHeaders:
           X-Forwarded-Proto: "https"
-
+    nextcloud-timeout:
+      headers:
+        customRequestHeaders:
+          Keep-Alive: "timeout=600, max=1000"
+        customResponseHeaders:
+          Keep-Alive: "timeout=600"
 
   services:
     nextcloud-svc:

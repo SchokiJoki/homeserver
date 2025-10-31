@@ -9,7 +9,11 @@ entryPoints:
 
   websecure:
     address: ":443"
-
+    transport:
+      respondingTimeouts:
+        readTimeout: 0s
+        writeTimeout: 0s
+        idleTimeout: 0s
 api:
   dashboard: true
   insecure: false
