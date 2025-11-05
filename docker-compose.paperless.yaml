@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
   # 🧠 Redis (Message-Broker)
   broker:
-    image: docker.io/library/redis:8
+    image: docker.io/library/redis:8@sha256:b6cd50158f60fec3a8638e485385284bcfb1495617281adba2ceb1b020eb281f  # version 8
     container_name: paperless-broker
     restart: unless-stopped
     volumes:
@@ -13,7 +11,7 @@ services:
 
   # 🗃️ PostgreSQL-Datenbank
   db:
-    image: docker.io/library/postgres:17
+    image: docker.io/library/postgres:17@sha256:b86568d3e0fe1dfaeff52714f9da36f206a30e4c49131b82bf96982d78627409  # version 17
     container_name: paperless-db
     restart: unless-stopped
     environment:
@@ -27,7 +25,7 @@ services:
 
   # 🌐 Paperless-NGX Webserver (ohne offenen Port)
   webserver:
-    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    image: ghcr.io/paperless-ngx/paperless-ngx:2.19.4@sha256:03080fba94dda46897408176062f1bdcbad61e89376ddc5cdc6399cee00a7d8e  # version 2.19.4 (was latest)
     container_name: paperless-web
     restart: unless-stopped
     depends_on:

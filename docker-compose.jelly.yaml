@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   jellyfin:
-    image: jellyfin/jellyfin:latest
+    image: jellyfin/jellyfin:10.11.2@sha256:298fceb9fa1c526d1392fef62e99b903148527ed7cdb9845509bdb8c5959b366  # version 10.11.2 (was latest)
     container_name: jellyfin
     hostname: jellyfin
     networks:

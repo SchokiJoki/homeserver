@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   nextcloud-aio-mastercontainer:
-    image: ghcr.io/nextcloud-releases/all-in-one:latest
+    image: ghcr.io/nextcloud-releases/all-in-one:latest  # channel latest (~v11.11.0); amd64 digest sha256:1918415ad057ce0f521b79962ac3243e4e7fd229cea6c7ebb9617cc7594aea48
     container_name: nextcloud-aio-mastercontainer
     restart: always
     init: true

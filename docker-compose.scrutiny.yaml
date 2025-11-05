@@ -1,12 +1,10 @@
-version: "3.9"
-
 networks:
   proxy:
     external: true
 
 services:
   scrutiny:
-    image: ghcr.io/analogj/scrutiny:master-omnibus
+    image: ghcr.io/analogj/scrutiny:master-omnibus@sha256:a53021b1d74fb3c63a81f9f9272bafffd4bdfdc43bd19ac9b60c57185a63fe04  # channel master-omnibus
     container_name: scrutiny
     restart: unless-stopped
     cap_add:

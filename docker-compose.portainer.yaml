@@ -1,8 +1,6 @@
-version: "3.9"
-
 services:
   portainer:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce:2.33.3-alpine@sha256:cbe5bf17ee906793c700440dcf8e1358d4fdd1a7eb64b4f276af9cf9a23935d1  # version 2.33.3-alpine (was latest)
     container_name: portainer
     restart: unless-stopped
 

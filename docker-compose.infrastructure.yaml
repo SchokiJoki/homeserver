@@ -1,9 +1,7 @@
-version: "3.9"
-
 services:
   # 🧿 Pi-hole (läuft im Hostnetz, DNS)
   pihole:
-    image: pihole/pihole:latest
+    image: pihole/pihole:2025.11.0@sha256:7f92ac65506759abb243e5381569d60b73fa0c4725ee47e6df32fde0e904ebbb  # version 2025.11.0 (was latest)
     container_name: pihole
     network_mode: host
     restart: unless-stopped
@@ -29,7 +27,7 @@ services:
 
   # 🌍 Traefik (Reverse Proxy, SSL, Dashboard)
   traefik:
-    image: traefik:latest
+    image: traefik:v3.5.4@sha256:7d0441d7b82d85362d169ab2f2adfa731e88373f635874ae1f235050f27432a4  # version v3.5.4 (was latest)
     container_name: traefik
     restart: unless-stopped
     depends_on:
@@ -58,7 +56,7 @@ services:
 
   # 🧩 Heimdall (Dashboard)
   heimdall:
-    image: lscr.io/linuxserver/heimdall:latest
+    image: lscr.io/linuxserver/heimdall:v2.7.6-ls326@sha256:b91ac7c253ac7b369aa440c656c1a0d2e44f27e393e91681f3b2dc5bb4a952e5  # version v2.7.6-ls326 (was latest)
     container_name: heimdall
     restart: unless-stopped
     depends_on:

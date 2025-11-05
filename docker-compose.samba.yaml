@@ -1,6 +1,6 @@
 services:
   samba:
-    image: dockurr/samba
+    image: dockurr/samba:4.21.6@sha256:7c91e785eae88bf257ec897fb868007b3c2c60232f14e9e47954a83bda894d77  # version 4.21.6 (was latest)
     container_name: samba
     environment:
       NAME: "${SAMBA_SHARE_NAME}"
