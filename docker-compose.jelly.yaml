@@ -1,6 +1,6 @@
 services:
   jellyfin:
-    image: jellyfin/jellyfin:10.11.2@sha256:298fceb9fa1c526d1392fef62e99b903148527ed7cdb9845509bdb8c5959b366  # version 10.11.2 (was latest)
+    image: jellyfin/jellyfin:latest #10.11.2@sha256:298fceb9fa1c526d1392fef62e99b903148527ed7cdb9845509bdb8c5959b366  # version 10.11.2 (was latest)
     container_name: jellyfin
     hostname: jellyfin
     networks:
@@ -28,6 +28,8 @@ services:
       - "traefik.http.routers.jellyfin.tls=true"
       - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
 
+
+      - "com.centurylinklabs.watchtower.enable=true"
 networks:
   proxy:
     external: true

@@ -1,7 +1,7 @@
 services:
   # 📮 Lokaler Postfix-Relay (System-SMTP)
   smtp-local:
-    image: mwader/postfix-relay:1.2.2@sha256:52e4c937f7e925b055315fddfad90e2154e38fec83f9d9cf1396eca09dc4f16b  # version 1.2.2 (was latest)
+    image: mwader/postfix-relay:latest  # was 1.2.2@sha256:52e4c937f7e925b055315fddfad90e2154e38fec83f9d9cf1396eca09dc4f16b
     container_name: smtp-local
     restart: unless-stopped
     environment:
@@ -25,10 +25,11 @@ services:
       - "traefik.http.routers.smtp-local.entrypoints=websecure"
       - "traefik.http.routers.smtp-local.tls=true"
       - "traefik.http.services.smtp-local.loadbalancer.server.port=25"
+      - "com.centurylinklabs.watchtower.enable=true"
 
   # 📬 Mailpit (zeigt alle eingehenden Mails im Browser)
   mailpit:
-    image: axllent/mailpit:v1.27@sha256:798783f7e4bff6d15795e7799221187c263763e434cf3e84f0546e8f4be27962  # version v1.27 (was latest)
+    image: axllent/mailpit:latest  # was v1.27@sha256:798783f7e4bff6d15795e7799221187c263763e434cf3e84f0546e8f4be27962
     container_name: mailpit
     restart: unless-stopped
     environment:
@@ -47,6 +48,7 @@ services:
       - "traefik.http.routers.mailpit.entrypoints=websecure"
       - "traefik.http.routers.mailpit.tls=true"
       - "traefik.http.services.mailpit.loadbalancer.server.port=8025"
+      - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
   proxy:

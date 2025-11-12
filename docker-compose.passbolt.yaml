@@ -16,9 +16,12 @@ services:
       - ./internals/passbolt/db:/var/lib/mysql
     networks:
       - proxy
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+      - "com.centurylinklabs.watchtower.monitor-only=true"
 
   passbolt:
-    image: passbolt/passbolt:5.6.1-1-ce@sha256:c192961f0c58618b7708078292f58e0ddba93eedac86bbd536f93846c3fbabca  # version 5.6.1-1-ce (was latest-ce)
+    image: passbolt/passbolt:latest  # was 5.6.1-1-ce@sha256:c192961f0c58618b7708078292f58e0ddba93eedac86bbd536f93846c3fbabca
     container_name: passbolt
     restart: unless-stopped
     depends_on:
@@ -66,3 +69,4 @@ services:
       - "traefik.http.services.passbolt-svc.loadbalancer.server.port=80"
       - "traefik.http.routers.passbolt.middlewares=SslHeader@file"
       - "traefik.docker.network=proxy"
+      - "com.centurylinklabs.watchtower.enable=true"

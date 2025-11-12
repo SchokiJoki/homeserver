@@ -1,0 +1,27 @@
+[core]
+server_name = cve.home:8000
+secret_key = change-me
+database_uri = postgresql://opencve:opencve@opencve-postgres:5432/opencve
+celery_broker_url = redis://opencve-redis:6379/0
+celery_result_backend = redis://opencve-redis:6379/1
+celery_lock_url = redis://opencve-redis:6379/2
+display_welcome = False
+display_terms = False
+include_analytics = False
+use_reverse_proxy = True
+reports_cleanup_days = 0
+
+[api]
+ratelimit_enabled = False
+ratelimit_value = 3600/hour
+ratelimit_storage_url = redis://opencve-redis:6379/2
+
+[mail]
+email_adapter = smtp
+email_from = opencve@cve.home
+smtp_server = smtp.example
+smtp_port = 587
+smtp_use_tls = True
+smtp_use_ssl = False
+smtp_username =
+smtp_password =

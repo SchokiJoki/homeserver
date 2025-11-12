@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  watchtower:
+    image: containrrr/watchtower:latest
+    container_name: watchtower
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      # ----- Update-Optionen -----
+      - WATCHTOWER_CLEANUP=true               # Alte Images nach Update löschen
+      - WATCHTOWER_INCLUDE_RESTARTING=true
+      - WATCHTOWER_INCLUDE_STOPPED=false
+#      - WATCHTOWER_POLL_INTERVAL=86400        # Alle 24h prüfen (in Sekunden)
+      # Oder alternativ Cron-Zeitplan:
+      - WATCHTOWER_SCHEDULE=0 0 3 * * *     # Jeden Tag um 03:00 Uhr
+
+      # ----- E-Mail Benachrichtigung -----
+      - WATCHTOWER_NOTIFICATIONS=email
+      - WATCHTOWER_NOTIFICATION_EMAIL_FROM=johannes.kigele@mailbox.org
+      - WATCHTOWER_NOTIFICATION_EMAIL_TO=johannes.kigele@mailbox.org
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER=smtp.mailbox.org
+      - WATCHTOWER_NOTIFICATION_EMAIL_PORT=587
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=${MAIL_USER}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=${MAIL_PW}
+      - WATCHTOWER_NOTIFICATION_EMAIL_SERVER_TLS_SKIP_VERIFY=false
+      - WATCHTOWER_NOTIFICATION_EMAIL_SUBJECTTAG="[Watchtower]"
+      - WATCHTOWER_NOTIFICATION_EMAIL_DELAY=2
+
+      # ----- Option: Nur Container mit Label aktualisieren -----
+      # Aktiviere diesen Modus, wenn du feiner steuern willst:
+      - WATCHTOWER_LABEL_ENABLE=true
+
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

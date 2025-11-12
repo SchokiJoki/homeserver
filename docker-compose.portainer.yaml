@@ -1,12 +1,12 @@
 services:
   portainer:
-    image: portainer/portainer-ce:2.33.3-alpine@sha256:cbe5bf17ee906793c700440dcf8e1358d4fdd1a7eb64b4f276af9cf9a23935d1  # version 2.33.3-alpine (was latest)
+    image: portainer/portainer-ce:latest  # fresh DB, latest release
     container_name: portainer
     restart: unless-stopped
 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
+      - ./internals/portainer:/data
 
     networks:
       - proxy
@@ -24,9 +24,7 @@ services:
 
       # Traefik-Netz explizit setzen
       - "traefik.docker.network=proxy"
-
-volumes:
-  portainer_data:
+      - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
   proxy:

@@ -1,7 +1,7 @@
 services:
   # 🧿 Pi-hole (läuft im Hostnetz, DNS)
   pihole:
-    image: pihole/pihole:2025.11.0@sha256:7f92ac65506759abb243e5381569d60b73fa0c4725ee47e6df32fde0e904ebbb  # version 2025.11.0 (was latest)
+    image: pihole/pihole:latest  # was 2025.11.0@sha256:7f92ac65506759abb243e5381569d60b73fa0c4725ee47e6df32fde0e904ebbb
     container_name: pihole
     network_mode: host
     restart: unless-stopped
@@ -24,10 +24,11 @@ services:
       - "traefik.http.routers.pihole.entrypoints=websecure"
       - "traefik.http.routers.pihole.tls=true"
       - "traefik.http.services.pihole.loadbalancer.server.url=http://192.168.178.69:8088"
+      - "com.centurylinklabs.watchtower.enable=true"
 
   # 🌍 Traefik (Reverse Proxy, SSL, Dashboard)
   traefik:
-    image: traefik:v3.5.4@sha256:7d0441d7b82d85362d169ab2f2adfa731e88373f635874ae1f235050f27432a4  # version v3.5.4 (was latest)
+    image: traefik:latest  # was v3.5.4@sha256:7d0441d7b82d85362d169ab2f2adfa731e88373f635874ae1f235050f27432a4
     container_name: traefik
     restart: unless-stopped
     depends_on:
@@ -53,10 +54,11 @@ services:
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.tls=true"
       - "traefik.http.routers.traefik.service=api@internal"
+      - "com.centurylinklabs.watchtower.enable=true"
 
   # 🧩 Heimdall (Dashboard)
   heimdall:
-    image: lscr.io/linuxserver/heimdall:v2.7.6-ls326@sha256:b91ac7c253ac7b369aa440c656c1a0d2e44f27e393e91681f3b2dc5bb4a952e5  # version v2.7.6-ls326 (was latest)
+    image: lscr.io/linuxserver/heimdall:latest  # was v2.7.6-ls326@sha256:b91ac7c253ac7b369aa440c656c1a0d2e44f27e393e91681f3b2dc5bb4a952e5
     container_name: heimdall
     restart: unless-stopped
     depends_on:
@@ -79,6 +81,7 @@ services:
       - "traefik.http.services.heimdall.loadbalancer.server.scheme=http"
       - "traefik.http.services.heimdall.loadbalancer.server.port=80"
       - "traefik.docker.network=proxy"
+      - "com.centurylinklabs.watchtower.enable=true"
 
 networks:
   proxy:

@@ -1,7 +1,7 @@
 services:
   homeassistant:
     container_name: homeassistant
-    image: "ghcr.io/home-assistant/home-assistant:stable@sha256:3778096a89fbd085cbf8fd0bc168d8a4391a3f3268b287b31ecd38af2001d225"  # channel stable (~2025.10.4)
+    image: ghcr.io/home-assistant/home-assistant:latest  # was stable (~2025.10.4) @sha256:3778096a89fbd085cbf8fd0bc168d8a4391a3f3268b287b31ecd38af2001d225
     restart: unless-stopped
     privileged: true
     network_mode: host
@@ -15,3 +15,5 @@ services:
       - traefik.http.routers.homeassistant.entrypoints=websecure
       - traefik.http.routers.homeassistant.tls=true
       - traefik.http.services.homeassistant.loadbalancer.server.port=8123
+
+      - "com.centurylinklabs.watchtower.enable=true"

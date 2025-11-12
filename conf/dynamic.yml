@@ -53,6 +53,8 @@ tls:
       keyfile:  /certs/assistant.home-key.pem
     - certFile: /certs/jellyfin.home.pem
       keyfile:  /certs/jellyfin.home-key.pem
+    - certFile: /certs/cve.home.pem
+      keyFile: /certs/cve.home-key.pem
     - certFile: /certs/scrutiny.home.pem
       keyfile:  /certs/scrutiny.home-key.pem
     - certFile: /certs/smtp.home.pem

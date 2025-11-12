@@ -1,0 +1,91 @@
+version: "3.9"
+
+x-opencve-service: &opencve-service
+  image: cleveritcz/opencve:${OPENCVE_VERSION:-1.5.0}
+  restart: unless-stopped
+  environment:
+    TZ: ${TZ:-Europe/Berlin}
+  env_file:
+    - .env.opencve
+  volumes:
+    - ${OPENCVE_CONFIG_PATH:-./internals/opencve/config/opencve.cfg}:/app/opencve.cfg:ro
+  networks:
+    - opencve
+  labels:
+    - "com.centurylinklabs.watchtower.enable=true"
+
+services:
+  opencve-web:
+    <<: *opencve-service
+    container_name: opencve-web
+    command: webserver -b 0.0.0.0:8000
+    depends_on:
+      - opencve-postgres
+      - opencve-redis
+    networks:
+      - opencve
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.opencve.rule=Host(`cve.home`)"
+      - "traefik.http.routers.opencve.entrypoints=websecure"
+      - "traefik.http.routers.opencve.tls=true"
+      - "traefik.http.services.opencve.loadbalancer.server.port=8000"
+      - "traefik.docker.network=proxy"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  opencve-worker:
+    <<: *opencve-service
+    container_name: opencve-worker
+    command: celery-worker
+    depends_on:
+      - opencve-web
+      - opencve-redis
+
+  opencve-beat:
+    <<: *opencve-service
+    container_name: opencve-beat
+    command: celery-beat
+    depends_on:
+      - opencve-web
+      - opencve-redis
+
+  opencve-redis:
+    image: redis:7-alpine
+    container_name: opencve-redis
+    restart: unless-stopped
+    command: ["redis-server", "--save", "60", "100", "--loglevel", "warning"]
+    volumes:
+      - ./internals/opencve/redis:/data
+    networks:
+      - opencve
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  opencve-postgres:
+    image: postgres:15-alpine
+    container_name: opencve-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: opencve
+      POSTGRES_USER: ${OPENCVE_DB_USER:-opencve}
+      POSTGRES_PASSWORD: ${OPENCVE_DB_PASSWORD:-opencve}
+      TZ: ${TZ:-Europe/Berlin}
+    volumes:
+      - ./internals/opencve/postgres:/var/lib/postgresql/data
+    networks:
+      - opencve
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${OPENCVE_DB_USER:-opencve}"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+networks:
+  proxy:
+    external: true
+  opencve:
+    name: opencve
+    driver: bridge

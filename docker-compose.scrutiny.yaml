@@ -4,7 +4,7 @@ networks:
 
 services:
   scrutiny:
-    image: ghcr.io/analogj/scrutiny:master-omnibus@sha256:a53021b1d74fb3c63a81f9f9272bafffd4bdfdc43bd19ac9b60c57185a63fe04  # channel master-omnibus
+    image: ghcr.io/analogj/scrutiny:latest  # was master-omnibus@sha256:a53021b1d74fb3c63a81f9f9272bafffd4bdfdc43bd19ac9b60c57185a63fe04
     container_name: scrutiny
     restart: unless-stopped
     cap_add:
@@ -34,3 +34,5 @@ services:
       # Service
       - "traefik.http.services.scrutiny-svc.loadbalancer.server.port=8080"
       - "traefik.http.services.scrutiny-svc.loadbalancer.server.scheme=http"
+
+      - "com.centurylinklabs.watchtower.enable=true"
