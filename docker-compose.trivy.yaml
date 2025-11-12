@@ -1,0 +1,64 @@
+networks:
+  proxy:
+    external: true
+
+services:
+  trivy-scanner:
+    image: aquasec/trivy:latest
+    container_name: trivy-scanner
+    restart: unless-stopped
+    environment:
+      - TZ=${TZ}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - SCAN_INTERVAL_SECONDS=3600
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./internals/trivy/scripts:/data/scripts:ro
+      - ./internals/trivy/reports:/data/reports
+      - ./internals/trivy/cache:/root/.cache/trivy
+      - ./internals/trivy/control:/data/control
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["/data/scripts/scan.sh"]
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  trivy-dashboard:
+    image: nginx:latest
+    container_name: trivy-dashboard
+    restart: unless-stopped
+    depends_on:
+      - trivy-scanner
+    environment:
+      - TZ=${TZ}
+    volumes:
+      - ./internals/trivy/reports:/usr/share/nginx/html:ro
+      - ./internals/trivy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.trivy.rule=Host(`trivy.home`)"
+      - "traefik.http.routers.trivy.entrypoints=websecure"
+      - "traefik.http.routers.trivy.tls=true"
+      - "traefik.http.routers.trivy.service=trivy-svc"
+      - "traefik.http.services.trivy-svc.loadbalancer.server.port=80"
+      - "traefik.http.services.trivy-svc.loadbalancer.server.scheme=http"
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  trivy-trigger:
+    image: python:3.13-alpine
+    container_name: trivy-trigger
+    restart: unless-stopped
+    depends_on:
+      - trivy-scanner
+    environment:
+      - TZ=${TZ}
+    command: ["python", "/app/server.py"]
+    volumes:
+      - ./internals/trivy/control:/data/control
+      - ./internals/trivy/server.py:/app/server.py:ro
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=false"
+      - "com.centurylinklabs.watchtower.enable=true"

@@ -41,6 +41,8 @@ tls:
       keyFile: /certs/pdf.home-key.pem
     - certFile: /certs/traefik.home.pem
       keyFile: /certs/traefik.home-key.pem
+    - certFile: /certs/trivy.home.pem
+      keyFile: /certs/trivy.home-key.pem
     - certFile: /certs/heimdall.home.pem
       keyfile:  /certs/heimdall.home-key.pem
     - certFile: /certs/wg.home.pem
