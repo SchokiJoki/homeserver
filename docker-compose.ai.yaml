@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:latest
+    container_name: openwebui
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - WEBUI_SECRET_KEY=${OWUI_SECRET_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ENABLE_CORS=true
+    volumes:
+      - ./internals/openwebui/data:/app/backend/data
+    networks:
+      - proxy
+      - openwebui
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.openwebui.rule=Host(`ai.home`)"
+      - "traefik.http.routers.openwebui.entrypoints=websecure"
+      - "traefik.http.routers.openwebui.tls=true"
+      - "traefik.http.services.openwebui.loadbalancer.server.port=8080"
+
+networks:
+  proxy:
+    external: true
+  openwebui:
+    driver: bridge

@@ -1,0 +1,26 @@
+services:
+  dockpeek:
+    image: dockpeek/dockpeek:latest
+    container_name: dockpeek
+    environment:
+      SECRET_KEY: "${DOCKPEEK_SECRET_KEY}"
+      USERNAME: "${DOCKPEEK_USERNAME}"
+      PASSWORD: "${DOCKPEEK_PASSWORD}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./internals/dockpeek:/data
+    networks:
+      - proxy
+    restart: unless-stopped
+
+    labels:
+      # ---- Traefik ----
+      - "traefik.enable=true"
+      - "traefik.http.routers.dockpeek.rule=Host(`dockpeek.home`)"
+      - "traefik.http.routers.dockpeek.entrypoints=websecure"
+      - "traefik.http.routers.dockpeek.tls=true"
+      - "traefik.http.services.dockpeek.loadbalancer.server.port=8000"
+
+networks:
+  proxy:
+    external: true

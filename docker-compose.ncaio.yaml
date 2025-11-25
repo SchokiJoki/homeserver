@@ -1,9 +1,32 @@
 services:
+  backup-mount-guard-ncaio:
+    image: busybox:1.36
+    container_name: backup-mount-guard-ncaio
+    restart: unless-stopped
+    command:
+      - sh
+      - -c
+      - "while true; do sleep 300; done"
+    volumes:
+      - /srv/backup/A/:/mnt/backup:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /mnt/backup/.mounted
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    network_mode: none
+
   nextcloud-aio-mastercontainer:
     image: ghcr.io/nextcloud-releases/all-in-one:latest  # channel latest (~v11.11.0); amd64 digest sha256:1918415ad057ce0f521b79962ac3243e4e7fd229cea6c7ebb9617cc7594aea48
     container_name: nextcloud-aio-mastercontainer
     restart: always
     init: true
+    depends_on:
+      backup-mount-guard-ncaio:
+        condition: service_healthy
     ports:
       - "8080:8080"   # AIO-Interface (self-signed)
     networks:
@@ -12,6 +35,15 @@ services:
       - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /srv/backup/A/nextcloud:/srv/backup/A/nextcloud
+      - /srv/backup/A/:/mnt/backup:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /mnt/backup/.mounted
+      interval: 1m
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     environment:
       TZ: Europe/Berlin
       NEXTCLOUD_DATADIR: /srv/backup/A/nextcloud/data

@@ -1,11 +1,43 @@
 services:
+  backup-mount-guard-paperless:
+    image: busybox:1.36
+    container_name: backup-mount-guard-paperless
+    restart: unless-stopped
+    command:
+      - sh
+      - -c
+      - "while true; do sleep 300; done"
+    volumes:
+      - /srv/backup/A/:/mnt/backup:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /mnt/backup/.mounted
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    network_mode: none
+
   # 🧠 Redis (Message-Broker)
   broker:
     image: docker.io/library/redis:latest  # was 8@sha256:b6cd50158f60fec3a8638e485385284bcfb1495617281adba2ceb1b020eb281f
     container_name: paperless-broker
     restart: unless-stopped
+    depends_on:
+      backup-mount-guard-paperless:
+        condition: service_healthy
     volumes:
       - /srv/backup/A/paperless/redisdata:/data
+      - /srv/backup/A/:/mnt/backup:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /mnt/backup/.mounted
+      interval: 1m
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     networks:
       - proxy
     labels:
@@ -16,12 +48,24 @@ services:
     image: docker.io/library/postgres:17@sha256:b86568d3e0fe1dfaeff52714f9da36f206a30e4c49131b82bf96982d78627409  # version 17
     container_name: paperless-db
     restart: unless-stopped
+    depends_on:
+      backup-mount-guard-paperless:
+        condition: service_healthy
     environment:
       POSTGRES_DB: paperless
       POSTGRES_USER: paperless
       POSTGRES_PASSWORD: paperless
     volumes:
       - /srv/backup/A/paperless/pgdata:/var/lib/postgresql/data
+      - /srv/backup/A/:/mnt/backup:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /mnt/backup/.mounted
+      interval: 1m
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     networks:
       - proxy
     labels:
@@ -34,8 +78,12 @@ services:
     container_name: paperless-web
     restart: unless-stopped
     depends_on:
-      - db
-      - broker
+      db:
+        condition: service_started
+      broker:
+        condition: service_started
+      backup-mount-guard-paperless:
+        condition: service_healthy
     env_file: .env
     environment:
       PAPERLESS_REDIS: redis://broker:6379
@@ -45,6 +93,15 @@ services:
       - /srv/backup/A/paperless/media:/usr/src/paperless/media
       - /srv/backup/A/paperless/export:/usr/src/paperless/export
       - /srv/backup/A/paperless/consume:/usr/src/paperless/consume
+      - /srv/backup/A/:/mnt/backup:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /mnt/backup/.mounted
+      interval: 1m
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     networks:
       - proxy
 

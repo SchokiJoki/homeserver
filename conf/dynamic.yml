@@ -63,3 +63,7 @@ tls:
       keyfile:  /certs/smtp.home-key.pem
     - certFile: /certs/mail.home.pem
       keyfile:  /certs/mail.home-key.pem
+    - certFile: /certs/dockpeek.home.pem
+      keyfile: /certs/dockpeek.home-key.pem
+    - certFile: /certs/ai.home.pem
+      keyfile:  /certs/ai.home-key.pem

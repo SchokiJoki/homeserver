@@ -1,4 +1,24 @@
 services:
+  backup-mount-guard-jelly:
+    image: busybox:1.36
+    container_name: backup-mount-guard-jelly
+    restart: unless-stopped
+    command:
+      - sh
+      - -c
+      - "while true; do sleep 300; done"
+    volumes:
+      - /srv/backup/A/:/mnt/backup:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /mnt/backup/.mounted
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    network_mode: none
+
   jellyfin:
     image: jellyfin/jellyfin:latest #10.11.2@sha256:298fceb9fa1c526d1392fef62e99b903148527ed7cdb9845509bdb8c5959b366  # version 10.11.2 (was latest)
     container_name: jellyfin
@@ -6,6 +26,9 @@ services:
     networks:
       - proxy
     restart: unless-stopped
+    depends_on:
+      backup-mount-guard-jelly:
+        condition: service_healthy
     environment:
       - TZ=Europe/Berlin
       - PUID=1000
@@ -19,6 +42,15 @@ services:
       - /srv/backup/A/media/videos:/media/videos
       - /srv/backup/A/media/music:/media/music
       - /srv/backup/A/media/itunes:/media/itunes
+      - /srv/backup/A/:/mnt/backup:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /mnt/backup/.mounted
+      interval: 1m
+      timeout: 5s
+      retries: 3
+      start_period: 15s
 
     labels:
       # 🔹 Traefik Integration

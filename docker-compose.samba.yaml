@@ -1,7 +1,30 @@
 services:
+  backup-mount-guard-samba:
+    image: busybox:1.36
+    container_name: backup-mount-guard-samba
+    restart: unless-stopped
+    command:
+      - sh
+      - -c
+      - "while true; do sleep 300; done"
+    volumes:
+      - /srv/backup/A/:/mnt/backup:ro
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /mnt/backup/.mounted
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    network_mode: none
+
   samba:
     image: dockurr/samba:latest  # was 4.21.6@sha256:7c91e785eae88bf257ec897fb868007b3c2c60232f14e9e47954a83bda894d77
     container_name: samba
+    depends_on:
+      backup-mount-guard-samba:
+        condition: service_healthy
     environment:
       NAME: "${SAMBA_SHARE_NAME}"
       USER: "${SAMBA_USER}"
@@ -13,6 +36,14 @@ services:
       - "445:445"
     volumes:
       - /srv/backup/A/:/storage
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - test -f /storage/.mounted
+      interval: 1m
+      timeout: 5s
+      retries: 3
+      start_period: 15s
     restart: always
 
     labels:
