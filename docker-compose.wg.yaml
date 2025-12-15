@@ -1,9 +1,3 @@
-volumes:
-  etc_wireguard:
-  wireguard_ui_db:
-    external: true
-    name: homeserver_wireguard_ui_db
-
 services:
   wireguard:
     image: ngoduykhanh/wireguard-ui:latest
@@ -27,8 +21,8 @@ services:
       WGUI_MANAGE_RESTART: "true"
       BIND_ADDRESS: 0.0.0.0:5000
     volumes:
-      - wireguard_ui_db:/app/db
-      - etc_wireguard:/etc/wireguard
+      - ./internals/wireguard/db:/app/db
+      - ./internals/wireguard/etc:/etc/wireguard
     ports:
       - "51820:51820/udp"
     networks:

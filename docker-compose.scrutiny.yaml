@@ -19,7 +19,7 @@ services:
       - ./internals/scrutiny/influxdb:/opt/scrutiny/influxdb
     devices:
       - "/dev/sda"
-      - "/dev/sdb"
+      #- "/dev/sdb"
     networks:
       - proxy
     labels:
