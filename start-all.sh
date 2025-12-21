@@ -19,6 +19,7 @@ COMPOSE_FILES=(
 
 STATIC_IPV4_FILES=()
 OTHER_FILES=()
+REQUIRED_NETWORKS=("nextcloud-aio" "proxy")
 
 if docker compose version >/dev/null 2>&1; then
   COMPOSE_COMMAND=(docker compose)
@@ -42,6 +43,13 @@ for file in "${COMPOSE_FILES[@]}"; do
 done
 
 COMPOSE_FILES=("${STATIC_IPV4_FILES[@]}" "${OTHER_FILES[@]}")
+
+for network in "${REQUIRED_NETWORKS[@]}"; do
+  if ! docker network inspect "$network" >/dev/null 2>&1; then
+    echo "Erstelle fehlendes Docker-Netzwerk: $network"
+    docker network create "$network" >/dev/null
+  fi
+done
 
 echo "Starte alle Dienste aus: ${COMPOSE_FILES[*]}"
 "${COMPOSE_COMMAND[@]}" \

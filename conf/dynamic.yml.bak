@@ -7,24 +7,13 @@ http:
       tls: true
       service: nextcloud-svc
       middlewares:
-        - SslHeader
         - nextcloud-timeout
-
-    collabora:
-      rule: "Host(`office.home`)"
-      entryPoints:
-        - websecure
-      tls: true
-      service: collabora-svc
-      middlewares:
-        - SslHeader
 
   middlewares:
     SslHeader:
       headers:
         customRequestHeaders:
           X-Forwarded-Proto: "https"
-
     nextcloud-timeout:
       headers:
         customRequestHeaders:
@@ -35,74 +24,46 @@ http:
   services:
     nextcloud-svc:
       loadBalancer:
-        passHostHeader: true
+        passHostHeader: false
         servers:
           - url: "http://nextcloud-aio-apache:11000"
 
-    collabora-svc:
-      loadBalancer:
-        passHostHeader: true
-        servers:
-          - url: "http://nextcloud-aio-collabora:9980"
 
 tls:
   certificates:
     - certFile: /certs/nextcloud.home.pem
       keyFile: /certs/nextcloud.home-key.pem
-
-    - certFile: /certs/office.home.pem
-      keyFile: /certs/office.home-key.pem
-
     - certFile: /certs/pihole.home.pem
       keyFile: /certs/pihole.home-key.pem
-
     - certFile: /certs/portainer.home.pem
       keyFile: /certs/portainer.home-key.pem
-
     - certFile: /certs/pdf.home.pem
       keyFile: /certs/pdf.home-key.pem
-
     - certFile: /certs/traefik.home.pem
       keyFile: /certs/traefik.home-key.pem
-
     - certFile: /certs/trivy.home.pem
       keyFile: /certs/trivy.home-key.pem
-
     - certFile: /certs/heimdall.home.pem
-      keyFile: /certs/heimdall.home-key.pem
-
+      keyfile:  /certs/heimdall.home-key.pem
     - certFile: /certs/wg.home.pem
-      keyFile: /certs/wg.home-key.pem
-
+      keyfile:  /certs/wg.home-key.pem
     - certFile: /certs/paperless.home.pem
-      keyFile: /certs/paperless.home-key.pem
-
+      keyfile:  /certs/paperless.home-key.pem
     - certFile: /certs/passbolt.home.pem
-      keyFile: /certs/passbolt.home-key.pem
-
+      keyfile:  /certs/passbolt.home-key.pem
     - certFile: /certs/assistant.home.pem
-      keyFile: /certs/assistant.home-key.pem
-
+      keyfile:  /certs/assistant.home-key.pem
     - certFile: /certs/jellyfin.home.pem
-      keyFile: /certs/jellyfin.home-key.pem
-
+      keyfile:  /certs/jellyfin.home-key.pem
     - certFile: /certs/cve.home.pem
       keyFile: /certs/cve.home-key.pem
-
     - certFile: /certs/scrutiny.home.pem
-      keyFile: /certs/scrutiny.home-key.pem
-
+      keyfile:  /certs/scrutiny.home-key.pem
     - certFile: /certs/smtp.home.pem
-      keyFile: /certs/smtp.home-key.pem
-
+      keyfile:  /certs/smtp.home-key.pem
     - certFile: /certs/mail.home.pem
-      keyFile: /certs/mail.home-key.pem
-
+      keyfile:  /certs/mail.home-key.pem
     - certFile: /certs/dockpeek.home.pem
-      keyFile: /certs/dockpeek.home-key.pem
-
+      keyfile: /certs/dockpeek.home-key.pem
     - certFile: /certs/ai.home.pem
-      keyFile: /certs/ai.home-key.pem
-
-    - certFile: /certs/office.home.pem
-      keyFile: /certs/office.home-key.pem
+      keyfile:  /certs/ai.home-key.pem

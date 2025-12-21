@@ -14,6 +14,16 @@ entryPoints:
         readTimeout: 0s
         writeTimeout: 0s
         idleTimeout: 0s
+    http:
+      encodedCharacters:
+        allowEncodedSlash: true
+        allowEncodedBackSlash: true
+        allowEncodedNullCharacter: false
+        allowEncodedSemicolon: false
+        allowEncodedPercent: true
+        allowEncodedQuestionMark: true
+        allowEncodedHash: false
+
 api:
   dashboard: true
   insecure: false

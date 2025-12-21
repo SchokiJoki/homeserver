@@ -13,10 +13,10 @@ STATIC_IPV4_FILES=()
 OTHER_FILES=()
 
 NON_INFRA_SERVICES=(
+  nextcloud-aio-mastercontainer
   portainer
   db
   redis
-  nextcloud
   backup
   ofelia
   samba
