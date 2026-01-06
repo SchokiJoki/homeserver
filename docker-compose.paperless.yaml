@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   backup-mount-guard-paperless:
     image: busybox:1.36
@@ -10,18 +12,15 @@ services:
     volumes:
       - /srv/backup/A/:/mnt/backup:ro
     healthcheck:
-      test:
-        - CMD-SHELL
-        - test -f /mnt/backup/.mounted
+      test: ["CMD-SHELL", "test -f /mnt/backup/.mounted"]
       interval: 30s
       timeout: 5s
       retries: 3
       start_period: 5s
     network_mode: none
 
-  # 🧠 Redis (Message-Broker)
   broker:
-    image: docker.io/library/redis:latest  # was 8@sha256:b6cd50158f60fec3a8638e485385284bcfb1495617281adba2ceb1b020eb281f
+    image: redis:latest
     container_name: paperless-broker
     restart: unless-stopped
     depends_on:
@@ -30,22 +29,13 @@ services:
     volumes:
       - /srv/backup/A/paperless/redisdata:/data
       - /srv/backup/A/:/mnt/backup:ro
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - test -f /mnt/backup/.mounted
-      interval: 1m
-      timeout: 5s
-      retries: 3
-      start_period: 15s
     networks:
       - proxy
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
 
-  # 🗃️ PostgreSQL-Datenbank
   db:
-    image: docker.io/library/postgres:17@sha256:b86568d3e0fe1dfaeff52714f9da36f206a30e4c49131b82bf96982d78627409  # version 17
+    image: postgres:17
     container_name: paperless-db
     restart: unless-stopped
     depends_on:
@@ -58,23 +48,14 @@ services:
     volumes:
       - /srv/backup/A/paperless/pgdata:/var/lib/postgresql/data
       - /srv/backup/A/:/mnt/backup:ro
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - test -f /mnt/backup/.mounted
-      interval: 1m
-      timeout: 5s
-      retries: 3
-      start_period: 15s
     networks:
       - proxy
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
       - "com.centurylinklabs.watchtower.monitor-only=true"
 
-  # 🌐 Paperless-NGX Webserver (ohne offenen Port)
   webserver:
-    image: ghcr.io/paperless-ngx/paperless-ngx:latest  # was 2.19.4@sha256:03080fba94dda46897408176062f1bdcbad61e89376ddc5cdc6399cee00a7d8e
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
     container_name: paperless-web
     restart: unless-stopped
     depends_on:
@@ -88,40 +69,24 @@ services:
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: db
+      PAPERLESS_CONSUMPTION_DIR: /usr/src/paperless/consume
+      PAPERLESS_MEDIA_ROOT: /usr/src/paperless/media
+      PAPERLESS_OCR_LANGUAGE: deu
+      PAPERLESS_FILENAME_FORMAT: "{created_year}/{correspondent}/{title}"
     volumes:
       - /srv/backup/A/paperless/data:/usr/src/paperless/data
       - /srv/backup/A/paperless/media:/usr/src/paperless/media
-      - /srv/backup/A/paperless/export:/usr/src/paperless/export
       - /srv/backup/A/paperless/consume:/usr/src/paperless/consume
       - /srv/backup/A/:/mnt/backup:ro
-    healthcheck:
-      test:
-        - CMD-SHELL
-        - test -f /mnt/backup/.mounted
-      interval: 1m
-      timeout: 5s
-      retries: 3
-      start_period: 15s
     networks:
       - proxy
-
     labels:
-      # 🔐 Traefik HTTPS-Integration
       - "traefik.enable=true"
       - "traefik.http.routers.paperless.rule=Host(`paperless.home`)"
       - "traefik.http.routers.paperless.entrypoints=websecure"
       - "traefik.http.routers.paperless.tls=true"
-
-      # Internes Routing zu Paperless-Port
       - "traefik.http.services.paperless.loadbalancer.server.port=8000"
-      - "traefik.http.services.paperless.loadbalancer.server.scheme=http"
       - "com.centurylinklabs.watchtower.enable=true"
-
-      # Optional: wenn du mkcert oder smallstep nutzt
-      # - "traefik.http.routers.paperless.tls.certresolver=myresolver"
-
-# 📦 Alle Daten persistent unter /srv/backup/A/paperless/
-# Keine internen Docker-Volumes nötig, da absolute Pfade genutzt werden
 
 networks:
   proxy:

@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   backup-mount-guard-samba:
     image: busybox:1.36
@@ -6,13 +8,17 @@ services:
     command:
       - sh
       - -c
-      - "while true; do sleep 300; done"
+      - |
+        while true; do
+          if [ -d /mnt/backup ]; then
+            touch /mnt/backup/.mounted
+          fi
+          sleep 300
+        done
     volumes:
-      - /srv/backup/A/:/mnt/backup:ro
+      - /srv/backup/A:/mnt/backup:ro
     healthcheck:
-      test:
-        - CMD-SHELL
-        - test -f /mnt/backup/.mounted
+      test: ["CMD-SHELL", "test -f /mnt/backup/.mounted"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -20,31 +26,41 @@ services:
     network_mode: none
 
   samba:
-    image: dockurr/samba:latest  # was 4.21.6@sha256:7c91e785eae88bf257ec897fb868007b3c2c60232f14e9e47954a83bda894d77
+    image: dockurr/samba:latest
     container_name: samba
+    restart: unless-stopped
+
     depends_on:
       backup-mount-guard-samba:
         condition: service_healthy
+
+    ports:
+      - "445:445"
+
     environment:
-      NAME: "${SAMBA_SHARE_NAME}"
-      USER: "${SAMBA_USER}"
+      USER: samba
       PASS: "${SAMBA_PASSWORD}"
       UID: "1000"
       GID: "1000"
-      RW: "true"
-    ports:
-      - "445:445"
+
     volumes:
-      - /srv/backup/A/:/storage
+      # Daten
+      - /srv/backup/A:/storage/backup
+      - /srv/backup/A/paperless/consume:/storage/paperless-consume
+      - /srv/backup/A/paperless/media:/storage/paperless-media:ro
+
+      # smb.conf aus deinem conf/-Ordner
+      - ./conf/smb.conf:/etc/samba/smb.conf:ro
+
+      # Mount-Guard
+      - /srv/backup/A:/mnt/backup:ro
+
     healthcheck:
-      test:
-        - CMD-SHELL
-        - test -f /storage/.mounted
+      test: ["CMD-SHELL", "test -f /mnt/backup/.mounted"]
       interval: 1m
       timeout: 5s
       retries: 3
       start_period: 15s
-    restart: always
 
     labels:
       - "com.centurylinklabs.watchtower.enable=true"
