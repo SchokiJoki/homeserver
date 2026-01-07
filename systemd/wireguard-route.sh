@@ -1,17 +1,28 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-TARGET_IP="10.42.42.42"
-TARGET_NET="10.8.0.0/24"
+VPN_NET="10.8.0.0/24"
+WG_CONTAINER="wireguard"
+WG_CONTAINER_IP="10.42.42.42"
 
-# Maximal 12 Versuche, jeweils 5 Sekunden Pause
-for i in {1..12}; do
-    if ping -c1 -W1 "$TARGET_IP" >/dev/null 2>&1; then
-        /usr/sbin/ip route replace "$TARGET_NET" via "$TARGET_IP"
-        exit 0
-    fi
-    sleep 5
-done
+log() {
+  echo "[wireguard-route] $1"
+}
 
-echo "wireguard container at $TARGET_IP not reachable" >&2
-exit 1
+# warten bis Docker läuft
+if ! command -v docker >/dev/null 2>&1; then
+  log "docker not available"
+  exit 1
+fi
+
+# prüfen ob Container läuft
+if ! docker inspect -f '{{.State.Running}}' "$WG_CONTAINER" 2>/dev/null | grep -q true; then
+  log "container '$WG_CONTAINER' not running"
+  exit 0
+fi
+
+# Route setzen oder ersetzen (idempotent)
+log "ensuring route ${VPN_NET} via ${WG_CONTAINER_IP}"
+/usr/sbin/ip route replace "$VPN_NET" via "$WG_CONTAINER_IP"
+
+log "done"

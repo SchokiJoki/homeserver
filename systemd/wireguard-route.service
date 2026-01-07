@@ -1,12 +1,12 @@
+# /etc/systemd/system/wireguard-route.service
 [Unit]
-Description=WireGuard Routing aktualisieren
+Description=WireGuard route for VPN clients
 After=network-online.target docker.service
 Wants=network-online.target docker.service
 
 [Service]
 Type=oneshot
 ExecStart=/usr/local/sbin/wireguard-route.sh
-ExecStop=/usr/sbin/ip route del 10.8.0.0/24 || true
 RemainAfterExit=yes
 
 [Install]
