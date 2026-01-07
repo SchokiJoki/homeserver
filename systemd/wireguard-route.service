@@ -7,7 +7,6 @@ Wants=network-online.target docker.service
 [Service]
 Type=oneshot
 ExecStart=/usr/local/sbin/wireguard-route.sh
-RemainAfterExit=yes
 
 [Install]
 WantedBy=multi-user.target
