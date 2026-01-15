@@ -12,7 +12,6 @@ COMPOSE_FILES=(
   "docker-compose.assistant.yaml"
   "docker-compose.passbolt.yaml"
   "docker-compose.scrutiny.yaml"
-  "docker-compose.jelly.yaml"
   "docker-compose.paperless.yaml"
   "docker-compose.mail.yaml"
 )
