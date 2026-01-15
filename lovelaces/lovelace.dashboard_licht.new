@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_licht",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Licht",
+          "path": "licht",
+          "icon": "mdi:lightbulb-group",
+          "type": "sections",
+          "max_columns": 4,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Lichter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.wohnzimmer_hintergrundbeleuchtung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.hauptschlafzimmer"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.schlafzimmer"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.schlafzimmer_schrankleuchte"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.phoscon_room_2_on_off_group"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.fls_pp3_helper1_for_group_3"
+                },
+                {
+                  "type": "tile",
+                  "entity": "light.phoscon_all_off"
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "header": {
+            "card": {
+              "type": "markdown",
+              "text_only": true,
+              "content": "Licht"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,231 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_fritzbox",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "FRITZ!Box",
+          "path": "fritzbox",
+          "icon": "mdi:router-wireless",
+          "type": "sections",
+          "max_columns": 4,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Status"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.fritz_box_7430_verbindung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.fritz_box_7430_wan_status"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_wan_status"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_betriebszeit"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_cpu_temperatur"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Geschwindigkeit"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_download_durchsatz"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_upload_durchsatz"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_download_geschwindigkeit"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_upload_geschwindigkeit"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_maximaler_download_durchsatz_der_verbindung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_maximaler_upload_durchsatz_der_verbindung"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "WLAN & Funktionen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.fritz_box_7430_wi_fi_fritz_box_7430_jg"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.fritz_box_7430_wi_fi_fritz_box_gastzugang"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.fritz_box_7430_call_deflection_0"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.fritz_box_7430_port_forward_vpn"
+                },
+                {
+                  "type": "tile",
+                  "entity": "image.fritz_box_7430_fritz_box_gastzugang",
+                  "show_entity_picture": true
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Wartung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.fritz_box_7430_firmware_update"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.fritz_box_7430_neu_starten"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.fritz_box_7430_neu_verbinden"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.fritz_box_7430_aufraumen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "update.fritz_box_7430_fritz_os"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "IP Adressen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_externe_ip"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fritz_box_7430_externe_ip_2"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.handy_jo_wi_fi_ip_address"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.handy_jo_public_ip_address"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.epson_wf_4380_ip_address"
+                },
+                {
+                  "type": "markdown",
+                  "content": "Wenn weitere IP-Sensoren vorhanden sind, kann ich diese Liste erweitern."
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Netzwerkgeraete"
+                },
+                {
+                  "type": "entities",
+                  "entities": [
+                    "device_tracker.handy_johannes",
+                    "device_tracker.huawei_p30_6de7c5a18e13f1",
+                    "device_tracker.huawei_p30_f514517617b0f1",
+                    "device_tracker.poco_x6_pro_5g",
+                    "device_tracker.realme_8_pro",
+                    "device_tracker.ps4_d96eb0",
+                    "device_tracker.desktop_t18jio7",
+                    "device_tracker.pc_192_168_178_31",
+                    "device_tracker.pc163",
+                    "device_tracker.debian",
+                    "device_tracker.raspberrypi",
+                    "device_tracker.net_ac_a17c",
+                    "device_tracker.mxchip",
+                    "device_tracker.prusa_mk4",
+                    "device_tracker.epson9e19de",
+                    "device_tracker.toniebox",
+                    "device_tracker.roborock_vacuum_a70",
+                    "device_tracker.p100",
+                    "device_tracker.p100_2",
+                    "device_tracker.p100_3",
+                    "device_tracker.p100_4",
+                    "device_tracker.p110",
+                    "device_tracker.p110_2",
+                    "device_tracker.p110_3",
+                    "device_tracker.p110_4",
+                    "device_tracker.tv_unten",
+                    "device_tracker.samsung",
+                    "device_tracker.garmin_fenix8_47mm_11b8d0a8c979",
+                    "device_tracker.espressif"
+                  ]
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "header": {
+            "card": {
+              "type": "markdown",
+              "text_only": true,
+              "content": "FRITZ!Box"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

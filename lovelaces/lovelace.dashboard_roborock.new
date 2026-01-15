@@ -1,0 +1,779 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_roborock",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Roborock",
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Schnellzugriff"
+                },
+                {
+                  "type": "tile",
+                  "entity": "vacuum.roborock_s8_pro_ultra"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_status"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_batterie"
+                },
+                {
+                  "type": "tile",
+                  "entity": "select.roborock_s8_pro_ultra_mopp_modus"
+                },
+                {
+                  "type": "tile",
+                  "entity": "select.roborock_s8_pro_ultra_wisch_intensitat"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.roborock_s8_pro_ultra_mopp_angebracht"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.eg_saugen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.og_vollreinigung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.vollreinigung_eg"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.flur_reinigen"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Programme"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.bad_oben_intensiv_reinigen",
+                  "name": "1. Bad oben intensiv"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.eg_saugen",
+                  "name": "2. Nur saugen EG"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.esszimmer_saugen",
+                  "name": "3. Esszimmer saugen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.esszimmer_worst_case",
+                  "name": "4. Esszimmer Worst Case"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.flur_reinigen",
+                  "name": "5. Flur"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.kachelofen_saugen",
+                  "name": "6. Kachelofen Saugen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.og_vollreinigung",
+                  "name": "7. OG Vollreinigung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "vacuum.roborock_s8_pro_ultra",
+                  "name": "8. vacuum.roborock_s8_pro_ultra"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.spieledecke_reinigen",
+                  "name": "9. Spieledecke"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.vollreinigung_eg",
+                  "name": "10. Vollreinigung EG"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "EG"
+                },
+                {
+                  "type": "custom:xiaomi-vacuum-map-card",
+                  "map_source": {
+                    "camera": "image.roborock_s8_pro_ultra_eg_custom"
+                  },
+                  "calibration_source": {
+                    "camera": true
+                  },
+                  "entity": "vacuum.roborock_s8_pro_ultra",
+                  "vacuum_platform": "Roborock",
+                  "map_modes": [
+                    {
+                      "template": "vacuum_clean_zone"
+                    },
+                    {
+                      "template": "vacuum_goto"
+                    },
+                    {
+                      "template": "vacuum_clean_segment",
+                      "predefined_selections": [
+                        {
+                          "id": "16",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 27650,
+                            "y": 31750
+                          },
+                          "label": {
+                            "text": "Speis",
+                            "x": 27650,
+                            "y": 31750,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              27100,
+                              31050
+                            ],
+                            [
+                              28200,
+                              31050
+                            ],
+                            [
+                              28200,
+                              32450
+                            ],
+                            [
+                              27100,
+                              32450
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "17",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 29425,
+                            "y": 32100
+                          },
+                          "label": {
+                            "text": "Flur",
+                            "x": 29425,
+                            "y": 32100,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              28600,
+                              31000
+                            ],
+                            [
+                              30250,
+                              31000
+                            ],
+                            [
+                              30250,
+                              33200
+                            ],
+                            [
+                              28600,
+                              33200
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "18",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 30950,
+                            "y": 32225
+                          },
+                          "label": {
+                            "text": "Gaeste WC",
+                            "x": 30950,
+                            "y": 32225,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              30300,
+                              31450
+                            ],
+                            [
+                              31600,
+                              31450
+                            ],
+                            [
+                              31600,
+                              33000
+                            ],
+                            [
+                              30300,
+                              33000
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "19",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 25950,
+                            "y": 27275
+                          },
+                          "label": {
+                            "text": "Kueche",
+                            "x": 25950,
+                            "y": 27275,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              24250,
+                              26100
+                            ],
+                            [
+                              27650,
+                              26100
+                            ],
+                            [
+                              27650,
+                              28450
+                            ],
+                            [
+                              24250,
+                              28450
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "20",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 26425,
+                            "y": 22775
+                          },
+                          "label": {
+                            "text": "Esszimmer",
+                            "x": 26425,
+                            "y": 22775,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              24200,
+                              19350
+                            ],
+                            [
+                              28650,
+                              19350
+                            ],
+                            [
+                              28650,
+                              26200
+                            ],
+                            [
+                              24200,
+                              26200
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "21",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 29425,
+                            "y": 26900
+                          },
+                          "label": {
+                            "text": "Wohnzimmer",
+                            "x": 29425,
+                            "y": 26900,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              27100,
+                              22800
+                            ],
+                            [
+                              31750,
+                              22800
+                            ],
+                            [
+                              31750,
+                              31000
+                            ],
+                            [
+                              27100,
+                              31000
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "22",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 25600,
+                            "y": 31075
+                          },
+                          "label": {
+                            "text": "Buero",
+                            "x": 25600,
+                            "y": 31075,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              24150,
+                              29200
+                            ],
+                            [
+                              27050,
+                              29200
+                            ],
+                            [
+                              27050,
+                              32950
+                            ],
+                            [
+                              24150,
+                              32950
+                            ]
+                          ]
+                        }
+                      ],
+                      "name": "EG"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "OG"
+                },
+                {
+                  "type": "custom:xiaomi-vacuum-map-card",
+                  "map_source": {
+                    "camera": "image.roborock_s8_pro_ultra_og_custom"
+                  },
+                  "calibration_source": {
+                    "camera": true
+                  },
+                  "entity": "vacuum.roborock_s8_pro_ultra",
+                  "vacuum_platform": "Xiaomi Miio",
+                  "map_modes": [
+                    {
+                      "template": "vacuum_clean_zone"
+                    },
+                    {
+                      "template": "vacuum_goto"
+                    },
+                    {
+                      "template": "vacuum_clean_segment",
+                      "predefined_selections": [
+                        {
+                          "id": "16",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 26400,
+                            "y": 22925
+                          },
+                          "label": {
+                            "text": "Bad",
+                            "x": 26400,
+                            "y": 22925,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              24900,
+                              21100
+                            ],
+                            [
+                              27900,
+                              21100
+                            ],
+                            [
+                              27900,
+                              24750
+                            ],
+                            [
+                              24900,
+                              24750
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "17",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 29625,
+                            "y": 24175
+                          },
+                          "label": {
+                            "text": "Gaestezimmer",
+                            "x": 29625,
+                            "y": 24175,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              28350,
+                              21750
+                            ],
+                            [
+                              30900,
+                              21750
+                            ],
+                            [
+                              30900,
+                              26600
+                            ],
+                            [
+                              28350,
+                              26600
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "18",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 25775,
+                            "y": 25675
+                          },
+                          "label": {
+                            "text": "Flur",
+                            "x": 25775,
+                            "y": 25675,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              23200,
+                              24800
+                            ],
+                            [
+                              28350,
+                              24800
+                            ],
+                            [
+                              28350,
+                              26550
+                            ],
+                            [
+                              23200,
+                              26550
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "19",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 24950,
+                            "y": 28750
+                          },
+                          "label": {
+                            "text": "Hauptschlafzimmer",
+                            "x": 24950,
+                            "y": 28750,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              23200,
+                              26250
+                            ],
+                            [
+                              26700,
+                              26250
+                            ],
+                            [
+                              26700,
+                              31250
+                            ],
+                            [
+                              23200,
+                              31250
+                            ]
+                          ]
+                        },
+                        {
+                          "id": "20",
+                          "icon": {
+                            "name": "mdi:broom",
+                            "x": 28775,
+                            "y": 28975
+                          },
+                          "label": {
+                            "text": "Kinderzimmer",
+                            "x": 28775,
+                            "y": 28975,
+                            "offset_y": 35
+                          },
+                          "outline": [
+                            [
+                              26700,
+                              26600
+                            ],
+                            [
+                              30850,
+                              26600
+                            ],
+                            [
+                              30850,
+                              31350
+                            ],
+                            [
+                              26700,
+                              31350
+                            ]
+                          ]
+                        }
+                      ],
+                      "name": "OG"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Standard Einstellungen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "select.roborock_s8_pro_ultra_ausgewahlte_karte"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.roborock_s8_pro_ultra_bitte_nicht_storen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "time.roborock_s8_pro_ultra_bitte_nicht_storen_beginn"
+                },
+                {
+                  "type": "tile",
+                  "entity": "time.roborock_s8_pro_ultra_bitte_nicht_storen_ende"
+                },
+                {
+                  "type": "tile",
+                  "entity": "number.roborock_s8_pro_ultra_lautstarke"
+                },
+                {
+                  "type": "tile",
+                  "entity": "select.roborock_s8_pro_ultra_mopp_modus"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.roborock_vacuum_a70_internet_access"
+                },
+                {
+                  "type": "tile",
+                  "entity": "select.roborock_s8_pro_ultra_wisch_intensitat"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Infos"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_aktueller_raum"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_batterie"
+                },
+                {
+                  "type": "tile",
+                  "entity": "image.roborock_s8_pro_ultra_eg_custom",
+                  "show_entity_picture": true
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_gesamter_reinigungsbereich"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_gesamtreinigungszeit"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_gesamtzahl_reinigungen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.roborock_s8_pro_ultra_ladestatus"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_letzter_reinigungsbeginn"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_letztes_reinigungsende"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.roborock_s8_pro_ultra_mopp_angebracht"
+                },
+                {
+                  "type": "tile",
+                  "entity": "image.roborock_s8_pro_ultra_og_custom",
+                  "show_entity_picture": true
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.roborock_s8_pro_ultra_reinigen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_reinigungsbereich"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_reinigungsfortschritt"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_reinigungszeit"
+                },
+                {
+                  "type": "tile",
+                  "entity": "device_tracker.roborock_vacuum_a70"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_status"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_staubsauger_fehler"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_verbleibende_filterzeit"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_verbleibende_sensorzeit"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_verbleibende_zeit_der_hauptburste"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_verbleibende_zeit_der_seitenburste"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.roborock_s8_pro_ultra_wasserkasten_angebracht"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.roborock_s8_pro_ultra_wasserknappheit"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Station"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.roborock_s8_pro_ultra_dock_kindersicherung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "select.roborock_s8_pro_ultra_dock_entleerungsmodus"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_dock_burstenwartung_verbleibend"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_dock_dock_fehler"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.roborock_s8_pro_ultra_dock_mopp_trocknung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_dock_schmutzfanger_verbleibend"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.roborock_s8_pro_ultra_dock_verbleibende_zeit_zum_trocknen_des_mopps"
+                }
+              ]
+            }
+          ],
+          "type": "sections",
+          "max_columns": 4,
+          "icon": "mdi:robot-vacuum",
+          "cards": [],
+          "header": {
+            "card": {
+              "type": "markdown",
+              "text_only": true,
+              "content": "Roborock"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

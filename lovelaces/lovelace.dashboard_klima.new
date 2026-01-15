@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_klima",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Klima",
+          "path": "klima",
+          "icon": "mdi:thermometer",
+          "type": "sections",
+          "max_columns": 3,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Uebersicht"
+                },
+                {
+                  "type": "markdown",
+                  "content": "Noch keine Klima-Geraete in Home Assistant gefunden.\nWenn du Thermostate, Klimaanlagen oder Sensoren hinzufuegst, baue ich das Dashboard gerne weiter aus."
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Luftfilter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.wohnzimmer_nanoprotect_filter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.wohnzimmer_vorfilter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.roborock_s8_pro_ultra_luftfilter_verbrauchsmaterial_zurucksetzen"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Luftfilter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.wohnzimmer_nanoprotect_filter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.wohnzimmer_vorfilter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.roborock_s8_pro_ultra_luftfilter_verbrauchsmaterial_zurucksetzen"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Lueftung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "fan.wohnzimmer"
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "header": {
+            "card": {
+              "type": "markdown",
+              "text_only": true,
+              "content": "Klima"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

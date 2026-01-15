@@ -1,0 +1,172 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_3d_drucker",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "3D Drucker",
+          "path": "3d-drucker",
+          "icon": "mdi:printer-3d",
+          "type": "sections",
+          "max_columns": 4,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Uebersicht"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_fortschritt"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_dateiname"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_druckstart"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_druck_fertig"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Temperatur"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_dusentemperatur"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_dusen_soll_temperatur"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_heizbetttemperatur"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_heizbett_soll_temperatur"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Steuerung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.prusa_mk4_job_pausieren"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.prusa_mk4_job_fortsetzen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "button.prusa_mk4_job_abbrechen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.3d_drucker"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.3d_drucker_2"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Status"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_z_hohe"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_druckgeschwindigkeit"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_druckfluss"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_hotend_lufter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_drucker_lufter"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.prusa_mk4_material"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.prusa_mk4_mmu"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.3d_drucker_overheat"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Vorschau"
+                },
+                {
+                  "type": "picture-entity",
+                  "entity": "camera.prusa_mk4_vorschau",
+                  "show_state": false,
+                  "show_name": false
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "header": {
+            "card": {
+              "type": "markdown",
+              "text_only": true,
+              "content": "3D Drucker"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

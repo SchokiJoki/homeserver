@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_schalten",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Schalten",
+          "path": "schalten",
+          "icon": "mdi:toggle-switch",
+          "type": "sections",
+          "max_columns": 4,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Haushalt"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.bad_rechts"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.fon"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.trockner"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.3d_drucker"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.soundbar"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.subwoofer"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.weihnachtsbeleuchtung_esszimmer"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.weihnachtsbeleuchtung_treppe"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Netzwerk"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.fritz_box_7430_call_deflection_0"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.fritz_box_7430_port_forward_vpn"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.fritz_box_7430_wi_fi_fritz_box_7430_jg"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.fritz_box_7430_wi_fi_fritz_box_gastzugang"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Roborock Dock"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.roborock_s8_pro_ultra_bitte_nicht_storen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.roborock_s8_pro_ultra_dock_kindersicherung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "switch.roborock_s8_pro_ultra_laden_zum_niedertarif"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Lueftung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "fan.wohnzimmer"
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "header": {
+            "card": {
+              "type": "markdown",
+              "text_only": true,
+              "content": "Schalten"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

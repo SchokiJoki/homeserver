@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace_dashboards",
+  "data": {
+    "items": [
+      {
+        "id": "map",
+        "icon": "mdi:map",
+        "title": "Karte",
+        "url_path": "map",
+        "require_admin": false,
+        "mode": "storage",
+        "show_in_sidebar": true
+      },
+      {
+        "id": "dashboard_roborock",
+        "show_in_sidebar": true,
+        "title": "Roborock",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "dashboard-roborock"
+      },
+      {
+        "id": "tv_wohnzimmer",
+        "show_in_sidebar": true,
+        "title": "TV Wohnzimmer",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "tv-wohnzimmer"
+      },
+      {
+        "id": "tv_oben",
+        "show_in_sidebar": true,
+        "title": "TV Oben",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "tv-oben"
+      },
+      {
+        "id": "dashboard_licht",
+        "show_in_sidebar": true,
+        "title": "Licht",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "licht",
+        "icon": "mdi:lightbulb-group"
+      },
+      {
+        "id": "dashboard_klima",
+        "show_in_sidebar": true,
+        "title": "Klima",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "klima",
+        "icon": "mdi:thermometer"
+      },
+      {
+        "id": "dashboard_energie",
+        "show_in_sidebar": true,
+        "title": "Energie",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "energie",
+        "icon": "mdi:flash"
+      },
+      {
+        "id": "dashboard_schalten",
+        "show_in_sidebar": true,
+        "title": "Schalten",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "schalten",
+        "icon": "mdi:toggle-switch"
+      },
+      {
+        "id": "dashboard_wetter",
+        "show_in_sidebar": true,
+        "title": "Wetter",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "wetter",
+        "icon": "mdi:weather-cloudy"
+      },
+      {
+        "id": "dashboard_3d_drucker",
+        "show_in_sidebar": true,
+        "title": "3D Drucker",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "3d-drucker",
+        "icon": "mdi:printer-3d"
+      },
+      {
+        "id": "dashboard_fritzbox",
+        "show_in_sidebar": true,
+        "title": "FRITZ!Box",
+        "require_admin": false,
+        "mode": "storage",
+        "url_path": "fritzbox",
+        "icon": "mdi:router-wireless"
+      }
+    ]
+  }
+}

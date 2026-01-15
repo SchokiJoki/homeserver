@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_wetter",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Wetter",
+          "path": "wetter",
+          "icon": "mdi:weather-cloudy",
+          "type": "sections",
+          "max_columns": 3,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Vorhersage"
+                },
+                {
+                  "type": "weather-forecast",
+                  "entity": "weather.forecast_home",
+                  "show_current": true,
+                  "show_forecast": true
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Sonne"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.daylight"
+                },
+                {
+                  "type": "tile",
+                  "entity": "binary_sensor.sun_solar_rising"
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "header": {
+            "card": {
+              "type": "markdown",
+              "text_only": true,
+              "content": "Wetter"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

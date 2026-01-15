@@ -1,0 +1,207 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace.dashboard_energie",
+  "data": {
+    "config": {
+      "views": [
+        {
+          "title": "Energie",
+          "path": "energie",
+          "icon": "mdi:flash",
+          "type": "sections",
+          "max_columns": 4,
+          "sections": [
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Gesamtuebersicht"
+                },
+                {
+                  "type": "statistics-graph",
+                  "entities": [
+                    "sensor.tv_unten_energie",
+                    "sensor.trockner_energie",
+                    "sensor.fon_energie",
+                    "sensor.weihnachtsbeleuchtung_esszimmer_energie",
+                    "sensor.weihnachtsbeleuchtung_treppe_energie"
+                  ],
+                  "stat_types": [
+                    "sum"
+                  ],
+                  "period": "day",
+                  "days_to_show": 7
+                },
+                {
+                  "type": "markdown",
+                  "content": "Kein Gesamtverbrauch-Sensor vorhanden. Die Kurve zeigt die Summe der verfuegbaren Energie-Sensoren."
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "TV Wohnzimmer"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.tv_unten_leistung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.tv_unten_energieverbrauch"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.tv_unten_energie"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.tv_unten_energieeinsparung"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.tv_unten_energiedifferenz"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Trockner"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.trockner_current_power"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.trockner_energie"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.trockner_today_energy"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.trockner_month_energy"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.trockner_energiedifferenz"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Foen"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fon_current_power"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fon_energie"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fon_today_energy"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fon_month_energy"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.fon_energiedifferenz"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Weihnachtsbeleuchtung Esszimmer"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_esszimmer_current_power"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_esszimmer_energie"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_esszimmer_today_energy"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_esszimmer_month_energy"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_esszimmer_energiedifferenz"
+                }
+              ]
+            },
+            {
+              "type": "grid",
+              "cards": [
+                {
+                  "type": "heading",
+                  "heading_style": "title",
+                  "heading": "Weihnachtsbeleuchtung Treppe"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_treppe_current_power"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_treppe_energie"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_treppe_today_energy"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_treppe_month_energy"
+                },
+                {
+                  "type": "tile",
+                  "entity": "sensor.weihnachtsbeleuchtung_treppe_energiedifferenz"
+                }
+              ]
+            }
+          ],
+          "cards": [],
+          "header": {
+            "card": {
+              "type": "markdown",
+              "text_only": true,
+              "content": "Energie"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
