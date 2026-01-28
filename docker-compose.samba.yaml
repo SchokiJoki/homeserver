@@ -46,7 +46,7 @@ services:
     volumes:
       # Daten
       - /srv/backup/A:/storage/backup
-      - /srv/backup/A/paperless/consume:/storage/paperless-consume
+      - /srv/backup/A/paperless/consume/scanner:/storage/paperless-consume
       - /srv/backup/A/paperless/media:/storage/paperless-media:ro
 
       # smb.conf aus deinem conf/-Ordner
