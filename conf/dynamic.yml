@@ -106,3 +106,6 @@ tls:
 
     - certFile: /certs/office.home.pem
       keyFile: /certs/office.home-key.pem
+
+    - certFile: /certs/authentik.home.pem
+      keyFile: /certs/authentik.home-key.pem

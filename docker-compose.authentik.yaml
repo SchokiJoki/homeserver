@@ -1,0 +1,121 @@
+version: "3.9"
+
+services:
+  postgresql:
+    image: docker.io/library/postgres:16-alpine
+    restart: unless-stopped
+
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${PG_DB:-authentik}
+      POSTGRES_USER: ${PG_USER:-authentik}
+      POSTGRES_PASSWORD: ${PG_PASS:?database password required}
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+    volumes:
+      - database:/var/lib/postgresql/data
+
+    networks:
+      - internal
+
+
+  authentik-server:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.12.1}
+    command: server
+    restart: unless-stopped
+    container_name: authentik-server
+
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+    env_file:
+      - .env
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+
+    # Ports bleiben bewusst auskommentiert (Debug / Fallback)
+    # ports:
+    #   - ${COMPOSE_PORT_HTTP:-9000}:9000
+    #   - ${COMPOSE_PORT_HTTPS:-9443}:9443
+
+    volumes:
+      - ./internals/authentik/data:/data
+      - ./internals/authentik/custom-templates:/templates
+
+    networks:
+      proxy:
+      internal:
+
+    labels:
+      - "traefik.enable=true"
+
+      - "traefik.http.routers.authentik.rule=Host(`authentik.home`)"
+      - "traefik.http.routers.authentik.entrypoints=websecure"
+      - "traefik.http.routers.authentik.tls=true"
+
+      - "traefik.http.services.authentik.loadbalancer.server.port=9000"
+
+      # Optional, aber sehr empfehlenswert:
+      # - "traefik.http.middlewares.authentik-headers.headers.customrequestheaders.X-Forwarded-Proto=https"
+      # - "traefik.http.routers.authentik.middlewares=authentik-headers"
+
+
+  authentik-worker:
+    image: ${AUTHENTIK_IMAGE:-ghcr.io/goauthentik/server}:${AUTHENTIK_TAG:-2025.12.1}
+    command: worker
+    restart: unless-stopped
+    user: root
+    container_name: authentik-worker
+
+    depends_on:
+      postgresql:
+        condition: service_healthy
+
+    env_file:
+      - .env
+    environment:
+      AUTHENTIK_POSTGRESQL__HOST: postgresql
+      AUTHENTIK_POSTGRESQL__NAME: ${PG_DB:-authentik}
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-authentik}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASS}
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?secret key required}
+
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./internals/authentik/data:/data
+      - ./certs:/certs
+      - ./internals/authentik/custom-templates:/templates
+
+    networks:
+      internal:
+
+
+volumes:
+  database:
+    driver: local
+
+
+networks:
+  proxy:
+    external: true
+
+  internal:
+    driver: bridge
+    name: homeserver_internal
+    ipam:
+      config:
+        - subnet: 172.23.0.0/16

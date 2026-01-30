@@ -10,6 +10,7 @@ COMPOSE_FILES=(
   "docker-compose.stirling.yaml"
   "docker-compose.assistant.yaml"
   "docker-compose.passbolt.yaml"
+  "docker-compose.authentik.yaml"
   "docker-compose.scrutiny.yaml"
   "docker-compose.paperless.yaml"
   "docker-compose.mail.yaml"
