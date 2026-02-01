@@ -5,17 +5,41 @@ services:
     image: ghcr.io/open-webui/open-webui:latest
     container_name: openwebui
     restart: unless-stopped
+
     env_file:
       - .env
+
     environment:
-      - WEBUI_SECRET_KEY=${OWUI_SECRET_KEY}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - ENABLE_CORS=true
+      WEBUI_SECRET_KEY: "${OWUI_SECRET_KEY}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
+
+      ENABLE_CORS: "true"
+
+      OAUTH_PROVIDER_NAME: "authentik"
+      OAUTH_CLIENT_ID: "jofUbBfypIKLFx7on3QdcSauxfdR4bRJrzXuLnCO"
+      OAUTH_CLIENT_SECRET: "roBL65LHO2rVe7XOaFvfepiXvKp8IXA25tfv2sn7hjl4T57Q5rmDEnHLM5o0jU6OGF1E9pXCVVtW13bS3U741FBbE4QKc1Mv9E3UbZhJlybEtEKfSiBMlpQj9PUXxSsM"
+
+      OPENID_PROVIDER_URL: "https://authentik.home/application/o/openweb/.well-known/openid-configuration"
+      OPENID_REDIRECT_URI: "https://ai.home/oauth/oidc/callback"
+
+      WEBUI_URL: "https://ai.home"
+
+      ENABLE_OAUTH_SIGNUP: "true"
+      ENABLE_LOGIN_FORM: "false"
+      OAUTH_MERGE_ACCOUNTS_BY_EMAIL: "true"
+      SSL_CERT_FILE: "/etc/ssl/certs/ca-certificates.crt"
+
     volumes:
+      # system trust store
+      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      # OpenWebUI persistent data
       - ./internals/openwebui/data:/app/backend/data
+
+
     networks:
       - proxy
       - openwebui
+
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.openwebui.rule=Host(`ai.home`)"
