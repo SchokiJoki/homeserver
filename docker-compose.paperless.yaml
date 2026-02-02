@@ -75,11 +75,17 @@ services:
       PAPERLESS_OCR_LANGUAGE: deu
       PAPERLESS_FILENAME_FORMAT: "{{owner_username}}/{{created_year}}/{{correspondent}}/{{title}}"
       PAPERLESS_CONSUMER_RECURSIVE: true
+      PAPERLESS_APPS: "allauth.socialaccount.providers.openid_connect"
+      PAPERLESS_SOCIALACCOUNT_PROVIDERS: >-
+        {"openid_connect":{"APPS":[{"provider_id":"authentik","name":"Authentik","client_id":"${PAPERLESS_OIDC_CLIENT_ID}","secret":"${PAPERLESS_OIDC_CLIENT_SECRET}","settings":{"server_url":"${PAPERLESS_OIDC_SERVER_URL}"}}],"OAUTH_PKCE_ENABLED":"True"}}
+      SSL_CERT_FILE: "/etc/ssl/certs/mkcert-rootCA.pem"
+      REQUESTS_CA_BUNDLE: "/etc/ssl/certs/mkcert-rootCA.pem"
 
     volumes:
       - /srv/backup/A/paperless/data:/usr/src/paperless/data
       - /srv/backup/A/paperless/media:/usr/src/paperless/media
       - /srv/backup/A/paperless/consume:/usr/src/paperless/consume
+      - ./certshare/rootCA.pem:/etc/ssl/certs/mkcert-rootCA.pem:ro
       - /srv/backup/A/:/mnt/backup:ro
     networks:
       - proxy
