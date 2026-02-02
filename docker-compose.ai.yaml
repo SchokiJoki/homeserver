@@ -1,6 +1,42 @@
 version: "3.9"
 
 services:
+  litellm-db:
+    image: postgres:16-alpine
+    container_name: litellm-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: litellm
+      POSTGRES_USER: litellm
+      POSTGRES_PASSWORD: "${LITELLM_DB_PASSWORD}"
+    volumes:
+      - ./internals/litellm/db:/var/lib/postgresql/data
+    networks:
+      - proxy
+
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    container_name: litellm
+    restart: unless-stopped
+    depends_on:
+      - litellm-db
+    environment:
+      DATABASE_URL: "postgresql://litellm:${LITELLM_DB_PASSWORD}@litellm-db:5432/litellm"
+      LITELLM_MASTER_KEY: "${LITELLM_MASTER_KEY}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY}"
+    volumes:
+      - ./internals/litellm/config.yaml:/app/config.yaml:ro
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    networks:
+      - proxy
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.litellm.rule=Host(`litellm.home`)"
+      - "traefik.http.routers.litellm.entrypoints=websecure"
+      - "traefik.http.routers.litellm.tls=true"
+      - "traefik.http.services.litellm.loadbalancer.server.port=4000"
+      - "traefik.docker.network=proxy"
+
   openwebui:
     image: ghcr.io/open-webui/open-webui:latest
     container_name: openwebui
@@ -11,7 +47,8 @@ services:
 
     environment:
       WEBUI_SECRET_KEY: "${OWUI_SECRET_KEY}"
-      OPENAI_API_KEY: "${OPENAI_API_KEY}"
+      OPENAI_API_BASE_URL: "http://litellm:4000/v1"
+      OPENAI_API_BASE: "http://litellm:4000/v1"
 
       ENABLE_CORS: "true"
 

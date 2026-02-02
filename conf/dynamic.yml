@@ -109,3 +109,6 @@ tls:
 
     - certFile: /certs/authentik.home.pem
       keyFile: /certs/authentik.home-key.pem
+
+    - certFile: /certs/litellm.home.pem
+      keyFile: /certs/litellm.home-key.pem
